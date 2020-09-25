@@ -1,0 +1,420 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Appeal Form</title>
+    <link rel='icon' href='https://png.pngtree.com/element_our/20190528/ourmid/pngtree-love-icon-image_1175282.jpg' type='image/x-icon' sizes="16x16" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+
+      <style>
+    * {box-sizing: border-box;}
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url("{% static "images/form_bg.png" %}");
+      min-height: 500px;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-origin: border-box;
+    }
+    .container #menuIcon{
+          display: inline-block;
+          cursor: pointer;
+        }
+
+        .bar1, .bar2, .bar3 {
+          width: 35px;
+          height: 5px;
+          background-color: navajowhite;
+          margin: 6px 0;
+          transition: 0.4s;
+        }
+
+        .change .bar1 {
+          -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+          transform: rotate(-45deg) translate(-9px, 6px);
+        }
+
+        .change .bar2 {opacity: 0;}
+
+        .change .bar3 {
+          -webkit-transform: rotate(45deg) translate(-8px, -8px);
+          transform: rotate(45deg) translate(-8px, -8px);
+        }
+    #navbar {
+      overflow: inherit;
+      background-color: black;
+      padding: 20px 10px;
+      transition: 0.4s;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 99;
+    }
+
+    #navbar a {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 25px;
+      border-radius: 4px;
+    }
+    #navbar p {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 25px;
+      border-radius: 4px;
+    }
+    #navbar #logo {
+      font-family: "Berlin Sans FB";
+      font-size: 50px;
+      color: orange;
+      transition: 0.4s;
+      cursor: default;
+    }
+
+    #navbar a:hover {
+      color: orange;
+      -ms-transform: scale(1.5); /* IE 9 */
+      -webkit-transform: scale(1.5); /* Safari 3-8 */
+      transform: scale(1.2);
+    }
+
+    #navbar a.active {
+      background-color: orange;
+      color: black;
+    }
+
+    #navbar-right {
+      float: right;
+    }
+    .navbar .icon {
+  	display: none;
+	}
+    .footer {
+      background-color: black;
+      padding: 5px 10px;
+    }
+    .footer #copy{
+      color: orange;
+      font-size: 10px;
+      transition: 0.4s;
+    }
+    @media screen and (max-width: 800px) {
+      .navbar a,
+      #dropbt{
+        display: none;
+      }
+      .navbar a.icon {
+        float: right;
+        display: block;
+      }
+      .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+  	}
+
+    @media screen and (max-width: 800px) {
+      #navbar navbar.responsive {position: relative;}
+      #navbar .navbar.responsive a{
+        float: none;
+        display: block;
+        text-align: right;
+      }
+      #navbar .navbar.responsive #dropbt{
+          float: none;
+          display: block;
+          text-align: right;
+          top: 0;
+      }
+      #navbar navbar.responsive.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      #navbar-right{
+          display: block;
+      }
+    }
+    .form-control:valid {
+        background-color: whitesmoke !important;
+      opacity: 1.0;
+    }
+    #form{
+        max-width: (940px + @grid-gutter-width);
+        background-color: black;
+      border-color: #040505;
+        opacity: 0.8;
+    }
+    form label{
+      color: whitesmoke;
+    }
+    #sub:hover{
+        background-color: chartreuse;
+    }
+    #reset:hover{
+        background-color: red;
+    }
+
+    .no-js #loader { display: none;  }
+    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+    .se-pre-con {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: url('https://lh3.googleusercontent.com/proxy/naUCP9DHV30PDxuLMExtOv9H-Z-CeE8DkQTsy4rf_sveRfbGq0rNt_o_AxtJ3xniWRw7FIXdAIug4RStl1-j9FtJHmSdkQ01oWsK086amWDXhW8b4A') center no-repeat;
+    }
+    .drop{
+        display: none;
+    }
+    #dropbt{
+        background-color: inherit;
+        float: left;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        line-height: 25px;
+        border: inherit;
+        border: none;
+        cursor: pointer;
+        list-style: none;
+    }
+    #dropbt:hover{
+        color: orange;
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari 3-8 */
+        transform: scale(1.2);
+    }
+    #dropbt:hover .drop{
+        display: block;
+        position: absolute;
+    }
+    .op:hover{
+        background-color: dodgerblue;
+    }
+    </style>
+  </head>
+  <body>
+
+
+    <div class="fixed-bg"></div>
+    <div id="navbar">
+      <p class="display-1" id="logo">DECISION MAKER <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
+      <div class="navbar" id="navbar-right">
+        <a href="javascript:void(0);" style="font-size:15px;" class="icon">
+            <div class="container" id="menuIcon" onclick="myFunction(this)">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
+        </a>
+        <a class="#Home" style="margin-right: 10px" href="{% url "my_app:index" %}">Home <i class="fa fa-home"></i></a>
+        <a class="active" style="margin-left: 10px;margin-right: 30px" href="{% url 'my_app:Aform' %}">Decision maker <i class="fa fa-balance-scale" aria-hidden="true"></i></a>
+        <!--
+        <li class="decision" style="width: 150px" id="dropbt" href="#">Decision
+          <i class="fa fa-level-down" aria-hidden="true"></i>
+          <div class="drop rounded" style="border-style: dashed;background-color: black;margin-top: 5%">
+              <a class="#Aform" href="{% url 'my_app:Aform' %}">A & G <i class="fa fa-file-text" aria-hidden="true"></i></a>
+          </div>
+        </li>
+        -->
+        {% if request.user.is_superuser %}
+            <a class="dashboard" style="margin-left: -10px;margin-right: 30px" href="{% url "my_app:dashboard" %}">Dashboard <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+        {% endif %}
+        <a class="logout" style="padding-left: 10px;padding-right: 30px" href="{% url 'my_app:logout' %}">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+      </div>
+    </div>
+    <div class= "container" id="form" style="margin-top:210px;margin-bottom: 10%">
+    <form style="margin-top:70px;margin-bottom: 100px" action="{% url "my_app:output" %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h6 style="color: orangered;padding-top: 5%;padding-bottom: 5%">* all fields are mandatory</h6>
+      <div class="row">
+          <div class="col">
+          <div class="form-group ">
+              <label for="inputNumber">APPEAL NUMBER</label>
+              <input name="appno" type="text" min="0" readonly class="form-control" id="inputNumber" value="{{ Appeal.2 | safe }}">
+          </div>
+          </div>
+          <div class="col">
+          <div class="form-group ">
+              <label for="inputDays">PROCESSING DAYS</label>
+              <input name="noofdays" type="text" min="0" readonly class="form-control" id="inputDays" value="{{ Date.2 | safe }}">
+          </div>
+          </div>
+      </div>
+    <br>
+      <div class="row">
+      <div class="col">
+          <label for="inputAmount">CLAIM AMOUNT</label>
+        <div class="form-group input-group mb-3">
+          <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+          <input name="amount" type="number" min="0" step="0.01" class="form-control" id="inputAmount" value="{{ Amount.2 | safe }}">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group ">
+          <label for="inputCode">PROCEDURE CODE</label>
+        <br>
+          <select name="procedurecode" id="inputCode" class="selectpicker form-control" data-live-search="true">
+              <option selected value="{{ Procedure.2 | safe }}">{{ Procedure.2 | safe }}</option>
+          </select>
+        </div>
+      </div>
+      </div>
+    <br>
+      <div class="row">
+          <div class="col">
+          <div class="form-group ">
+            <label for="inputClaim">NO OF CLAIMS</label>
+            <input name="noofclaims" type="text" readonly min="0" class="form-control" id="inputClaim" value="{{ Claims.2 | safe }}">
+          </div>
+          </div>
+          <div class="col">
+          <div class="form-group">
+            <label for="inputAppeal">APPEAL CATEGORY</label>
+            <input name="cat" type="text" readonly class="form-control" id="inputAppeal" value="{{ Category.2 | safe }}">
+          </div>
+          </div>
+      </div>
+<br>
+        <div class="row">
+        <div class="col">
+        <div class="form-group ">
+          <label for="inputState">STATE NAME</label>
+        <br>
+          <select name="state" id="inputState" class="form-control selectpicker" data-live-search="true">
+                <option selected value="{{ State.2 | safe }}">{{ State.2 | safe }}</option>
+          </select>
+        </div></div>
+        <div class="col">
+        <div class="form-group ">
+          <label for="inputPart">MEDICARE PART</label>
+            <br>
+          <select name="part" id="inputPart" class="form-control selectpicker" data-live-search="true">
+              <option selected value="{{ Part.2 | safe }}">{{ Part.2 | safe }}</option>
+          </select>
+        </div>
+        </div>
+        </div>
+
+<br>
+      <div class="row" align="center">
+        <div class="col" align="center">
+          <label for="inputOTR">OTR</label>
+          <select name="otr" id="inputOTR" class="form-control">
+            <option selected value="{{ OTR.2 | safe }}">{{ OTR.2 | safe }}</option>
+          </select>
+        </div>
+        <div class="col" align="center">
+          <label for="inputPSC">PSC/ZPIC</label>
+          <select name="psc" id="inputPSC" class="form-control">
+            <option selected value="{{ PSC.2 | safe }}">{{ PSC.2 | safe }}</option>
+          </select>
+        </div>
+        <div class="col" align="center">
+          <label for="inputRAC">RAC</label>
+          <select name="rac" id="inputRAC" class="form-control">
+            <option selected value="{{ RAC.2 | safe }}">{{ RAC.2 | safe }}</option>
+          </select>
+        </div>
+      </div>
+    <br>
+      <div class="row" align="center">
+        <div class="col" align="center">
+          <label for="inputHtype">HEARING TYPE</label>
+          <select name="htype" id="inputHtype" class="form-control">
+            <option selected value="{{ HType.2 | safe }}">{{ HType.2 | safe }}</option>
+          </select>
+        </div>
+        <div class="col" align="center">
+          <label for="inputApproach">METHODOLOGY</label>
+          <select name="approach" id="inputApproach" class="form-control" required>
+            <option selected disabled value="">Select...</option>
+            <option value="Approach 1">Approach 1 - Catboost</option>
+            <option value="Approach 2">Approach 2 - Randomforest</option>
+          </select>
+        </div>
+      </div>
+        <br>
+      <div class="text-center">
+      <button type="submit" class="btn btn-success btn-lg btn-rounded" id="sub" style="margin-right: 5%;margin-top: 10%;margin-bottom: 10%;color: black">Submit</button>
+      <a role="button" class="btn btn-danger btn-lg btn-rounded" id="reset" href="{% url 'my_app:Aform' %}" style="margin-top: 10%;margin-bottom: 10%;color: black;width: 90px">Reset</a>
+      <button class="btn btn-md btn-warning dropdown-toggle pull-right" style="margin-right: 10%;margin-top: 10%;margin-bottom: 10%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <strong>Sample forms</strong>
+      </button>
+      <div class="dropdown-menu" style="background-color: whitesmoke" aria-labelledby="dropdownMenuButton">
+        <a class="op dropdown-item" style="color: black" href="{% url 'my_app:AformA' %}">Sample Form 1</a>
+        <a class="op dropdown-item" style="color: black" href="{% url 'my_app:AformA2' %}">Sample Form 2</a>
+        <a class="op dropdown-item" style="color: black" href="{% url 'my_app:AformD' %}">Sample Form 3</a>
+        <a class="op dropdown-item" style="color: black" href="{% url 'my_app:AformD2' %}">Sample Form 4</a>
+      </div>
+      </div>
+    </form>
+    </div>
+    {% block output %}
+    {% endblock %}
+    <footer class="footer" style="margin-top: 10%" align="center">
+  		<div class="footer" id="copy">© 2020 Copyright:
+    	<a href="#"> decisionmaker.com by TEAM 10</a>
+  		</div>
+	</footer>
+
+<script>
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        document.getElementById("navbar").style.padding = "10px 10px";
+        document.getElementById("logo").style.fontSize = "35px";
+      } else {
+        document.getElementById("navbar").style.padding = "20px 10px";
+        document.getElementById("logo").style.fontSize = "50px";
+      }
+    }
+    function myFunction(y) {
+      y.classList.toggle("change");
+      var x = document.getElementById("navbar-right");
+      if (x.className === "navbar") {
+        x.className += " responsive";
+      } else {
+        x.className = "navbar";
+      }
+    }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+  </body>
+</html>

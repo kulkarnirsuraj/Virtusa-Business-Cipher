@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <a role="button" href="{% url "my_app:index" %}" id="clickButton"></a>
+
+<script>
+    window.onload = function(){
+        var button = document.getElementById('clickButton');
+        button.click();
+    }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</body>
+</html>

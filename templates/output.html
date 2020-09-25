@@ -1,0 +1,100 @@
+{% extends 'Aform.html' %}
+{% block output %}
+    <style>
+        #chartdiv {
+          width: 100%;
+          height: 58vh;
+        }
+        #save {
+          top: 2em;
+          right: 2em;
+          margin-top: 5%;
+          background-color: orange;
+        }
+        #save:hover{
+            background-color: orangered;
+            color: white;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="//cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="//cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="//cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/dark.js"></script>
+    <a role="button" href="#output" id="clickButton"></a>
+    <div class="scroll" id="output"></div>
+    <div align="center" style="background-color: black;opacity: 0.8;padding-top: 1%;margin-left: 25%;padding-bottom: 5%;height: 50%;width: 50%">
+        <h1 align="center" style="font-family: 'Berlin Sans FB';color: aqua">PREDICTION GRAPH</h1>
+        <div align="center" id="chartdiv"></div>
+        <button class="btn btn-md" id="save" onclick="exportPNG();">save <i class="fa fa-download" aria-hidden="true"></i></button>
+    </div>
+    <script>
+        window.onload = function(){
+        var button = document.getElementById('clickButton');
+        button.click();
+    }
+        am4core.useTheme(am4themes_animated);
+        am4core.useTheme(am4themes_dark);
+
+
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        chart.data = [
+          {
+            decision: "Acceptance",
+            value: {{ accepted | safe }}
+          },
+          {
+            decision: "Denial",
+            value: {{ denied | safe }}
+          }
+        ];
+        chart.radius = am4core.percent(60);
+        chart.innerRadius = am4core.percent(40);
+        chart.startAngle = 180;
+        chart.endAngle = 360;
+        chart.exporting.filePrefix = {{ appno | safe }};
+
+
+        var title = chart.titles.create();
+        title.text = {{ appno | safe }};
+        title.fontSize = 30;
+        title.marginBottom = 5;
+
+        var series = chart.series.push(new am4charts.PieSeries());
+        series.dataFields.value = "value";
+        series.dataFields.category = "decision";
+        series.numberFormatter.numberFormat = "#.##";
+
+        series.slices.template.cornerRadius = 0;
+        series.slices.template.innerCornerRadius = 2;
+        series.slices.template.draggable = false;
+        series.slices.template.inert = true;
+        series.alignLabels = false;
+        series.labels.template.bent = true;
+        series.labels.template.fill = am4core.color("#fff");
+        series.ticks.template.disabled = true;
+        series.labels.template.disabled = true;
+        chart.logo.disabled = true;
+
+        series.hiddenState.properties.startAngle = 90;
+        series.hiddenState.properties.endAngle = 90;
+
+        chart.legend = new am4charts.Legend();
+
+        series.colors.list = [
+        am4core.color("#28B463"),
+        am4core.color("#E74C3C")
+        ]
+        function exportPNG() {
+          chart.exporting.export("png");
+        }
+
+        var options = chart.exporting.getFormatOptions("png");
+        options.keepTainted = true;
+        chart.exporting.setFormatOptions("png", options);
+
+    </script>
+{% endblock %}

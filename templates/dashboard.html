@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+{% load static %}
+{% load plotly_dash %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="icon" href='https://png.pngtree.com/element_our/20190528/ourmid/pngtree-love-icon-image_1175282.jpg' type='image/x-icon' sizes="16x16" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    * {box-sizing: border-box;}
+    body {
+      margin: 0 auto;
+      width: 90%;
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url("{% static "images/main_bg.png" %}");
+      min-height: 500px;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-origin: border-box;
+      margin-top: 20%;
+    }
+    .fontsize{
+      font-weight: bold;
+      font-size:20px;
+    }
+
+    .common{
+      /* color: #FF5733 ; */
+      color:rgb(220,220,220);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .myrounded{
+      border-radius: 10px;
+      border-bottom: 10px solid #FC8E5C ;
+    }
+
+    .bg_{
+      background-color: white;
+      border-radius: 8px;
+      border-bottom: 8px solid #FC8E5C ;
+
+    }
+    .container #menuIcon{
+          display: inline-block;
+          cursor: pointer;
+        }
+
+        .bar1, .bar2, .bar3 {
+          width: 35px;
+          height: 5px;
+          background-color: navajowhite;
+          margin: 6px 0;
+          transition: 0.4s;
+        }
+
+        .change .bar1 {
+          -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+          transform: rotate(-45deg) translate(-9px, 6px);
+        }
+
+        .change .bar2 {opacity: 0;}
+
+        .change .bar3 {
+          -webkit-transform: rotate(45deg) translate(-8px, -8px);
+          transform: rotate(45deg) translate(-8px, -8px);
+        }
+    #navbar {
+      overflow: inherit;
+      background-color: #040505;
+      padding: 20px 10px;
+      transition: 0.4s;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 99;
+    }
+
+    #navbar a {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 25px;
+      border-radius: 4px;
+    }
+    #navbar p {
+      float: left;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      line-height: 25px;
+      border-radius: 4px;
+    }
+    #navbar #logo {
+      font-family: "Berlin Sans FB";
+      font-size: 50px;
+      color: orange;
+      transition: 0.4s;
+      cursor: default;
+    }
+
+    #navbar a:hover {
+      color: orange;
+      -ms-transform: scale(1.5); /* IE 9 */
+      -webkit-transform: scale(1.5); /* Safari 3-8 */
+      transform: scale(1.2);
+    }
+
+    #navbar a.active {
+      background-color: orange;
+      color: black;
+    }
+
+    #navbar-right {
+      float: right;
+    }
+    .navbar .icon {
+  	display: none;
+	}
+    .footer {
+      overflow: hidden;
+      background-color: black;
+      padding: 5px 10px;
+      position: relative;
+      margin-right: -4.9vw;
+      margin-left: -5vw;
+    }
+    .footer #copy{
+      color: orange;
+      font-size: 10px;
+      transition: 0.4s;
+    }
+    @media screen and (max-width: 800px) {
+      .navbar a,
+      #dropbt{
+        display: none;
+      }
+      .navbar a.icon {
+        float: right;
+        display: block;
+      }
+      #head{
+          margin-top: 100px;
+      }
+  	}
+
+    @media screen and (max-width: 800px) {
+      #navbar navbar.responsive {position: relative;}
+      #navbar .navbar.responsive a{
+        float: none;
+        display: block;
+        text-align: right;
+      }
+      #navbar .navbar.responsive #dropbt{
+          float: none;
+          display: block;
+          text-align: right;
+          top: 0;
+      }
+      #navbar navbar.responsive.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      #navbar-right{
+          display: block;
+      }
+    }
+
+    </style>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <div class="fixed-bg"></div>
+    <div id="navbar">
+      <p class="display-1" id="logo">DECISION MAKER <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
+      <div class="navbar" id="navbar-right">
+          <a href="javascript:void(0);" style="font-size:15px;" class="icon">
+            <div class="container" id="menuIcon" onclick="myFunction(this)">
+              <div class="bar1"></div>
+              <div class="bar2"></div>
+              <div class="bar3"></div>
+            </div>
+        </a>
+        <a class="#home" style="margin-right: 10px" href="{% url 'my_app:index' %}">Home <i class="fa fa-home"></i></a>
+        <a class="#Aform" style="margin-left: 10px;margin-right: 30px" href="{% url 'my_app:Aform' %}">Decision maker <i class="fa fa-balance-scale" aria-hidden="true"></i></a>
+        <!--
+        <li class="decision" style="width: 150px" id="dropbt" href="#">Decision
+          <i class="fa fa-level-down" aria-hidden="true"></i>
+          <div class="drop rounded" style="border-style: dashed;background-color: black;margin-top: 5%">
+              <a class="#Aform" href="{% url 'my_app:Aform' %}">A & G <i class="fa fa-file-text" aria-hidden="true"></i></a>
+          </div>
+        </li>
+        -->
+        {% if request.user.is_superuser %}
+            <a class="active dashboard" style="margin-left: -10px;margin-right: 20px" href="{% url "my_app:dashboard" %}">Dashboard <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+        {% endif %}
+        <a class="logout" style="padding-left: 10px;padding-right: 30px" href="{% url 'my_app:logout' %}">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+      </div>
+    </div>
+    <div class="container" style="margin-top: -10%">
+        <div class="form-row align-items-center justify-content-around">
+        <!-- <div class="col-3 pt-5 pb-5 text-center mb-2 bg-dark common myrounded">
+          <span class='fontsize'>Users : 50</span> <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-file-earmark-person" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+          <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+          <path fill-rule="evenodd" d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="M8 12c4 0 5 1.755 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12z"/>
+          </svg>
+        </div> -->
+        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center  mb-2 bg-dark common myrounded" id="head">
+          <span style="color: orange" class='fontsize changecolor'>Approved: 53.8%</span> <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-check" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+  <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+</svg>
+        </div>
+        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center mb-2 bg-dark common myrounded">
+          <span style="color: orange" class='fontsize changecolor'>Denied: 46.2%</span><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-x" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+  <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
+  <path fill-rule="evenodd" d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z"/>
+</svg>
+        </div>
+
+      </div>
+        <br><br>
+      <!-- US map -->
+
+      <div class="row">
+        <div class="col bg_">
+          <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+          <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+          <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+          <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+          <script src="https://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+          <div id="US_map"></div>
+          <script type="text/javascript">
+          Highcharts.getJSON('{% static "images/population_density.json" %}', function (data) {
+
+            // Make codes uppercase to match the map data
+            data.forEach(function (p) {
+              p.code = p.code.toUpperCase();
+            });
+
+            // Instantiate the map
+            Highcharts.mapChart('US_map', {
+
+              chart: {
+                map: 'countries/us/us-all',
+                // borderWidth: 1,
+                backgroundColor:"white",
+                borderRadius:15,
+                borderColor:'white'
+              },
+
+              credits:{
+                enabled:false
+              },
+
+              title: {
+                text: 'STATE WISE APPROVAL RATE'
+              },
+
+              tooltip:{
+                // name:'aa',
+                // animation
+                backgroundColor:'rgb(240,240,240,0.8)',
+                borderColor:'rgb(240,0,0,0.5)',
+                borderRadius:20,
+                pointFormat:'<strong>{point.state_name}</strong><br>Total Appeals : {point.total}<br>Approved : {point.value}<br>Denied : {point.denied}',
+              },
+
+              exporting: {
+                sourceWidth: 600,
+                sourceHeight: 500
+              },
+
+              legend: {
+                layout: 'horizontal',
+                borderWidth: 0,
+                backgroundColor: 'white',
+                floating: true,
+                verticalAlign: 'top',
+                y: 25
+              },
+
+              mapNavigation: {
+                enabled: true
+              },
+
+              colorAxis: {
+                min: 1,
+                type: 'logarithmic',
+                minColor: 'white',
+                maxColor: '#0061FF'
+                // stops: [
+                //   [0, 'white'],
+                //   [0.8, '#7AC0EE'],
+                //   [1, '#006BB3']
+                // ]
+              },
+
+              series: [{
+                animation: {
+                  duration: 1000
+                },
+                data: data,
+                joinBy: ['postal-code', 'code'],
+                dataLabels: {
+                  enabled: true,
+                  color: '#FFFFFF',
+                  format: '<strong>{point.code}</strong>'
+                },
+                name:'Approval rate',
+                // tooltip: {
+                //   pointFormat: '{point.code}:\n{point.value}',
+                // }
+              }]
+            });
+          });
+          </script>
+        </div>
+      </div>
+      <!-- drill down chart -->
+        <br><br>
+      <div class="row">
+        <div class="col bg_">
+          <div id="drilldown"></div>
+          <script src="https://code.highcharts.com/gantt/highcharts-gantt.js"></script>
+          <script src="https://code.highcharts.com/modules/stock.js"></script>
+          <script src="https://code.highcharts.com/gantt/modules/exporting.js"></script>
+          <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+          <script type="text/javascript">
+          Highcharts.chart('drilldown', {
+              chart: {
+                  type: 'bar',
+                  marginLeft:130,
+              },
+              title: {
+                  text: 'STATE WISE APPEAL COUNT'
+              },
+              xAxis: {
+                  type: 'category',
+                  title: {
+                      text: null
+                  },
+                  // labels: {
+                  //     style: {
+                  //         fontWeight: 'bold',
+                  //         color: 'red'
+                  //     }
+                  // },
+                  min:0,
+                  max:5,
+                  scrollbar:{
+                    enabled:true,
+                  },
+                  tickLength: 0
+              },
+              yAxis: {
+
+                  title: {
+                      text: 'Appeals',
+                      align: 'high'
+                  },
+
+              },
+              plotOptions: {
+                  bar: {
+                      dataLabels: {
+                          enabled: true
+                      }
+                  }
+              },
+              legend: {
+                  enabled: false
+              },
+              credits: {
+                  enabled: false
+              },
+              series: [{
+                  name: 'Appeals',
+                  colorByPoint: true,
+                  data:
+                  [{name: 'ALABAMA', y: 2389, drilldown: 'ALABAMA'},
+                   {name: 'ALASKA', y: 120, drilldown: 'ALASKA'},
+                   {name: 'AMERICAN SAMOA', y: 0, drilldown: 'AMERICAN SAMOA'},
+                   {name: 'ARIZONA', y: 2314, drilldown: 'ARIZONA'},
+                   {name: 'ARKANSAS', y: 2554, drilldown: 'ARKANSAS'},
+                   {name: 'CALIFORNIA', y: 16464, drilldown: 'CALIFORNIA'},
+                   {name: 'COLORADO', y: 2405, drilldown: 'COLORADO'},
+                   {name: 'CONNECTICUT', y: 2626, drilldown: 'CONNECTICUT'},
+                   {name: 'DELAWARE', y: 648, drilldown: 'DELAWARE'},
+                   {name: 'DISTRICT OF COLUMBIA',
+                    y: 146,
+                    drilldown: 'DISTRICT OF COLUMBIA'},
+                   {name: 'FEDERATED STATES OF MICRONESIA',
+                    y: 0,
+                    drilldown: 'FEDERATED STATES OF MICRONESIA'},
+                   {name: 'FLORIDA', y: 30931, drilldown: 'FLORIDA'},
+                   {name: 'GEORGIA', y: 3422, drilldown: 'GEORGIA'},
+                   {name: 'GUAM GU', y: 0, drilldown: 'GUAM GU'},
+                   {name: 'HAWAII', y: 168, drilldown: 'HAWAII'},
+                   {name: 'IDAHO', y: 651, drilldown: 'IDAHO'},
+                   {name: 'ILLINOIS', y: 4658, drilldown: 'ILLINOIS'},
+                   {name: 'INDIANA', y: 3436, drilldown: 'INDIANA'},
+                   {name: 'IOWA', y: 1480, drilldown: 'IOWA'},
+                   {name: 'KANSAS', y: 1390, drilldown: 'KANSAS'},
+                   {name: 'KENTUCKY', y: 1671, drilldown: 'KENTUCKY'},
+                   {name: 'LOUISIANA', y: 1676, drilldown: 'LOUISIANA'},
+                   {name: 'MAINE', y: 548, drilldown: 'MAINE'},
+                   {name: 'MARSHALL ISLANDS', y: 0, drilldown: 'MARSHALL ISLANDS'},
+                   {name: 'MARYLAND', y: 2390, drilldown: 'MARYLAND'},
+                   {name: 'MASSACHUSETTS', y: 3492, drilldown: 'MASSACHUSETTS'},
+                   {name: 'MICHIGAN', y: 4999, drilldown: 'MICHIGAN'},
+                   {name: 'MINNESOTA', y: 3504, drilldown: 'MINNESOTA'},
+                   {name: 'MISSISSIPPI', y: 1271, drilldown: 'MISSISSIPPI'},
+                   {name: 'MISSOURI', y: 4496, drilldown: 'MISSOURI'},
+                   {name: 'MONTANA', y: 789, drilldown: 'MONTANA'},
+                   {name: 'NEBRASKA', y: 1211, drilldown: 'NEBRASKA'},
+                   {name: 'NEVADA', y: 750, drilldown: 'NEVADA'},
+                   {name: 'NEW HAMPSHIRE', y: 566, drilldown: 'NEW HAMPSHIRE'},
+                   {name: 'NEW JERSEY', y: 4652, drilldown: 'NEW JERSEY'},
+                   {name: 'NEW MEXICO', y: 1353, drilldown: 'NEW MEXICO'},
+                   {name: 'NEW YORK', y: 7778, drilldown: 'NEW YORK'},
+                   {name: 'NORTH CAROLINA', y: 2583, drilldown: 'NORTH CAROLINA'},
+                   {name: 'NORTH DAKOTA', y: 395, drilldown: 'NORTH DAKOTA'},
+                   {name: 'NORTHERN MARIANA ISLANDS',
+                    y: 0,
+                    drilldown: 'NORTHERN MARIANA ISLANDS'},
+                   {name: 'OHIO', y: 4628, drilldown: 'OHIO'},
+                   {name: 'OKLAHOMA', y: 1387, drilldown: 'OKLAHOMA'},
+                   {name: 'OREGON', y: 695, drilldown: 'OREGON'},
+                   {name: 'PALAU', y: 0, drilldown: 'PALAU'},
+                   {name: 'PENNSYLVANIA', y: 8162, drilldown: 'PENNSYLVANIA'},
+                   {name: 'PUERTO RICO', y: 856, drilldown: 'PUERTO RICO'},
+                   {name: 'RHODE ISLAND', y: 323, drilldown: 'RHODE ISLAND'},
+                   {name: 'SOUTH CAROLINA', y: 1507, drilldown: 'SOUTH CAROLINA'},
+                   {name: 'SOUTH DAKOTA', y: 415, drilldown: 'SOUTH DAKOTA'},
+                   {name: 'TENNESSEE', y: 4449, drilldown: 'TENNESSEE'},
+                   {name: 'TEXAS', y: 12582, drilldown: 'TEXAS'},
+                   {name: 'UTAH', y: 1799, drilldown: 'UTAH'},
+                   {name: 'VERMONT', y: 236, drilldown: 'VERMONT'},
+                   {name: 'VIRGIN ISLANDS', y: 0, drilldown: 'VIRGIN ISLANDS'},
+                   {name: 'VIRGINIA', y: 2877, drilldown: 'VIRGINIA'},
+                   {name: 'WASHINGTON', y: 2489, drilldown: 'WASHINGTON'},
+                   {name: 'WEST VIRGINIA', y: 1072, drilldown: 'WEST VIRGINIA'},
+                   {name: 'WISCONSIN', y: 3062, drilldown: 'WISCONSIN'},
+                   {name: 'WYOMING', y: 364, drilldown: 'WYOMING'}]
+              }
+            ],
+              drilldown: {
+                activeAxisLabelStyle: {
+                      textDecoration: 'none',
+                      fontStyle: 'bold',
+                      color:'black'
+                  },
+                  activeDataLabelStyle: {
+                      textDecoration: 'none',
+                      fontStyle: 'bold',
+                      color:'grey'
+                  },
+                      _animation: {
+                          duration: 2000
+                      },
+            series:[{id: 'ALABAMA',
+            name: 'ALABAMA',
+            data: [{name: 'Part A', y: 608, drilldown: 'ALABAMAPart A'},
+             {name: 'Part B', y: 1480, drilldown: 'ALABAMAPart B'},
+             {name: 'Part B of A', y: 298, drilldown: 'ALABAMAPart B of A'},
+             {name: 'Part c', y: 3, drilldown: 'ALABAMAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'ALABAMAUnspecified'}]},
+           {id: 'ALASKA',
+            name: 'ALASKA',
+            data: [{name: 'Part A', y: 39, drilldown: 'ALASKAPart A'},
+             {name: 'Part B', y: 81, drilldown: 'ALASKAPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'ALASKAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'ALASKAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'ALASKAUnspecified'}]},
+           {id: 'AMERICAN SAMOA',
+            name: 'AMERICAN SAMOA',
+            data: [{name: 'Part A', y: 0, drilldown: 'AMERICAN SAMOAPart A'},
+             {name: 'Part B', y: 0, drilldown: 'AMERICAN SAMOAPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'AMERICAN SAMOAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'AMERICAN SAMOAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'AMERICAN SAMOAUnspecified'}]},
+           {id: 'ARIZONA',
+            name: 'ARIZONA',
+            data: [{name: 'Part A', y: 719, drilldown: 'ARIZONAPart A'},
+             {name: 'Part B', y: 1572, drilldown: 'ARIZONAPart B'},
+             {name: 'Part B of A', y: 18, drilldown: 'ARIZONAPart B of A'},
+             {name: 'Part c', y: 5, drilldown: 'ARIZONAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'ARIZONAUnspecified'}]},
+           {id: 'ARKANSAS',
+            name: 'ARKANSAS',
+            data: [{name: 'Part A', y: 769, drilldown: 'ARKANSASPart A'},
+             {name: 'Part B', y: 1483, drilldown: 'ARKANSASPart B'},
+             {name: 'Part B of A', y: 302, drilldown: 'ARKANSASPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'ARKANSASPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'ARKANSASUnspecified'}]},
+           {id: 'CALIFORNIA',
+            name: 'CALIFORNIA',
+            data: [{name: 'Part A', y: 3319, drilldown: 'CALIFORNIAPart A'},
+             {name: 'Part B', y: 12984, drilldown: 'CALIFORNIAPart B'},
+             {name: 'Part B of A', y: 141, drilldown: 'CALIFORNIAPart B of A'},
+             {name: 'Part c', y: 20, drilldown: 'CALIFORNIAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'CALIFORNIAUnspecified'}]},
+           {id: 'COLORADO',
+            name: 'COLORADO',
+            data: [{name: 'Part A', y: 645, drilldown: 'COLORADOPart A'},
+             {name: 'Part B', y: 1626, drilldown: 'COLORADOPart B'},
+             {name: 'Part B of A', y: 133, drilldown: 'COLORADOPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'COLORADOPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'COLORADOUnspecified'}]},
+           {id: 'CONNECTICUT',
+            name: 'CONNECTICUT',
+            data: [{name: 'Part A', y: 1062, drilldown: 'CONNECTICUTPart A'},
+             {name: 'Part B', y: 1313, drilldown: 'CONNECTICUTPart B'},
+             {name: 'Part B of A', y: 246, drilldown: 'CONNECTICUTPart B of A'},
+             {name: 'Part c', y: 5, drilldown: 'CONNECTICUTPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'CONNECTICUTUnspecified'}]},
+           {id: 'DELAWARE',
+            name: 'DELAWARE',
+            data: [{name: 'Part A', y: 163, drilldown: 'DELAWAREPart A'},
+             {name: 'Part B', y: 313, drilldown: 'DELAWAREPart B'},
+             {name: 'Part B of A', y: 172, drilldown: 'DELAWAREPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'DELAWAREPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'DELAWAREUnspecified'}]},
+           {id: 'DISTRICT OF COLUMBIA',
+            name: 'DISTRICT OF COLUMBIA',
+            data: [{name: 'Part A',
+              y: 15,
+              drilldown: 'DISTRICT OF COLUMBIAPart A'},
+             {name: 'Part B', y: 116, drilldown: 'DISTRICT OF COLUMBIAPart B'},
+             {name: 'Part B of A',
+              y: 15,
+              drilldown: 'DISTRICT OF COLUMBIAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'DISTRICT OF COLUMBIAPart C'},
+             {name: 'Unspecified',
+              y: 0,
+              drilldown: 'DISTRICT OF COLUMBIAUnspecified'}]},
+           {id: 'FEDERATED STATES OF MICRONESIA',
+            name: 'FEDERATED STATES OF MICRONESIA',
+            data: [{name: 'Part A',
+              y: 0,
+              drilldown: 'FEDERATED STATES OF MICRONESIAPart A'},
+             {name: 'Part B',
+              y: 0,
+              drilldown: 'FEDERATED STATES OF MICRONESIAPart B'},
+             {name: 'Part B of A',
+              y: 0,
+              drilldown: 'FEDERATED STATES OF MICRONESIAPart B of A'},
+             {name: 'Part c',
+              y: 0,
+              drilldown: 'FEDERATED STATES OF MICRONESIAPart C'},
+             {name: 'Unspecified',
+              y: 0,
+              drilldown: 'FEDERATED STATES OF MICRONESIAUnspecified'}]},
+           {id: 'FLORIDA',
+            name: 'FLORIDA',
+            data: [{name: 'Part A', y: 4445, drilldown: 'FLORIDAPart A'},
+             {name: 'Part B', y: 24034, drilldown: 'FLORIDAPart B'},
+             {name: 'Part B of A', y: 2385, drilldown: 'FLORIDAPart B of A'},
+             {name: 'Part c', y: 60, drilldown: 'FLORIDAPart C'},
+             {name: 'Unspecified', y: 7, drilldown: 'FLORIDAUnspecified'}]},
+           {id: 'GEORGIA',
+            name: 'GEORGIA',
+            data: [{name: 'Part A', y: 499, drilldown: 'GEORGIAPart A'},
+             {name: 'Part B', y: 2784, drilldown: 'GEORGIAPart B'},
+             {name: 'Part B of A', y: 139, drilldown: 'GEORGIAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'GEORGIAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'GEORGIAUnspecified'}]},
+           {id: 'GUAM GU',
+            name: 'GUAM GU',
+            data: [{name: 'Part A', y: 0, drilldown: 'GUAM GUPart A'},
+             {name: 'Part B', y: 0, drilldown: 'GUAM GUPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'GUAM GUPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'GUAM GUPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'GUAM GUUnspecified'}]},
+           {id: 'HAWAII',
+            name: 'HAWAII',
+            data: [{name: 'Part A', y: 102, drilldown: 'HAWAIIPart A'},
+             {name: 'Part B', y: 61, drilldown: 'HAWAIIPart B'},
+             {name: 'Part B of A', y: 4, drilldown: 'HAWAIIPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'HAWAIIPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'HAWAIIUnspecified'}]},
+           {id: 'IDAHO',
+            name: 'IDAHO',
+            data: [{name: 'Part A', y: 243, drilldown: 'IDAHOPart A'},
+             {name: 'Part B', y: 395, drilldown: 'IDAHOPart B'},
+             {name: 'Part B of A', y: 13, drilldown: 'IDAHOPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'IDAHOPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'IDAHOUnspecified'}]},
+           {id: 'ILLINOIS',
+            name: 'ILLINOIS',
+            data: [{name: 'Part A', y: 695, drilldown: 'ILLINOISPart A'},
+             {name: 'Part B', y: 3326, drilldown: 'ILLINOISPart B'},
+             {name: 'Part B of A', y: 635, drilldown: 'ILLINOISPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'ILLINOISPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'ILLINOISUnspecified'}]},
+           {id: 'INDIANA',
+            name: 'INDIANA',
+            data: [{name: 'Part A', y: 603, drilldown: 'INDIANAPart A'},
+             {name: 'Part B', y: 2324, drilldown: 'INDIANAPart B'},
+             {name: 'Part B of A', y: 509, drilldown: 'INDIANAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'INDIANAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'INDIANAUnspecified'}]},
+           {id: 'IOWA',
+            name: 'IOWA',
+            data: [{name: 'Part A', y: 711, drilldown: 'IOWAPart A'},
+             {name: 'Part B', y: 743, drilldown: 'IOWAPart B'},
+             {name: 'Part B of A', y: 26, drilldown: 'IOWAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'IOWAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'IOWAUnspecified'}]},
+           {id: 'KANSAS',
+            name: 'KANSAS',
+            data: [{name: 'Part A', y: 385, drilldown: 'KANSASPart A'},
+             {name: 'Part B', y: 972, drilldown: 'KANSASPart B'},
+             {name: 'Part B of A', y: 33, drilldown: 'KANSASPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'KANSASPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'KANSASUnspecified'}]},
+           {id: 'KENTUCKY',
+            name: 'KENTUCKY',
+            data: [{name: 'Part A', y: 361, drilldown: 'KENTUCKYPart A'},
+             {name: 'Part B', y: 885, drilldown: 'KENTUCKYPart B'},
+             {name: 'Part B of A', y: 423, drilldown: 'KENTUCKYPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'KENTUCKYPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'KENTUCKYUnspecified'}]},
+           {id: 'LOUISIANA',
+            name: 'LOUISIANA',
+            data: [{name: 'Part A', y: 476, drilldown: 'LOUISIANAPart A'},
+             {name: 'Part B', y: 1088, drilldown: 'LOUISIANAPart B'},
+             {name: 'Part B of A', y: 112, drilldown: 'LOUISIANAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'LOUISIANAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'LOUISIANAUnspecified'}]},
+           {id: 'MAINE',
+            name: 'MAINE',
+            data: [{name: 'Part A', y: 176, drilldown: 'MAINEPart A'},
+             {name: 'Part B', y: 302, drilldown: 'MAINEPart B'},
+             {name: 'Part B of A', y: 70, drilldown: 'MAINEPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'MAINEPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MAINEUnspecified'}]},
+           {id: 'MARSHALL ISLANDS',
+            name: 'MARSHALL ISLANDS',
+            data: [{name: 'Part A', y: 0, drilldown: 'MARSHALL ISLANDSPart A'},
+             {name: 'Part B', y: 0, drilldown: 'MARSHALL ISLANDSPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'MARSHALL ISLANDSPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'MARSHALL ISLANDSPart C'},
+             {name: 'Unspecified',
+              y: 0,
+              drilldown: 'MARSHALL ISLANDSUnspecified'}]},
+           {id: 'MARYLAND',
+            name: 'MARYLAND',
+            data: [{name: 'Part A', y: 257, drilldown: 'MARYLANDPart A'},
+             {name: 'Part B', y: 1982, drilldown: 'MARYLANDPart B'},
+             {name: 'Part B of A', y: 149, drilldown: 'MARYLANDPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'MARYLANDPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MARYLANDUnspecified'}]},
+           {id: 'MASSACHUSETTS',
+            name: 'MASSACHUSETTS',
+            data: [{name: 'Part A', y: 1435, drilldown: 'MASSACHUSETTSPart A'},
+             {name: 'Part B', y: 1718, drilldown: 'MASSACHUSETTSPart B'},
+             {name: 'Part B of A', y: 336, drilldown: 'MASSACHUSETTSPart B of A'},
+             {name: 'Part c', y: 3, drilldown: 'MASSACHUSETTSPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MASSACHUSETTSUnspecified'}]},
+           {id: 'MICHIGAN',
+            name: 'MICHIGAN',
+            data: [{name: 'Part A', y: 1636, drilldown: 'MICHIGANPart A'},
+             {name: 'Part B', y: 2893, drilldown: 'MICHIGANPart B'},
+             {name: 'Part B of A', y: 469, drilldown: 'MICHIGANPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'MICHIGANPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MICHIGANUnspecified'}]},
+           {id: 'MINNESOTA',
+            name: 'MINNESOTA',
+            data: [{name: 'Part A', y: 213, drilldown: 'MINNESOTAPart A'},
+             {name: 'Part B', y: 3200, drilldown: 'MINNESOTAPart B'},
+             {name: 'Part B of A', y: 90, drilldown: 'MINNESOTAPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'MINNESOTAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MINNESOTAUnspecified'}]},
+           {id: 'MISSISSIPPI',
+            name: 'MISSISSIPPI',
+            data: [{name: 'Part A', y: 316, drilldown: 'MISSISSIPPIPart A'},
+             {name: 'Part B', y: 864, drilldown: 'MISSISSIPPIPart B'},
+             {name: 'Part B of A', y: 91, drilldown: 'MISSISSIPPIPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'MISSISSIPPIPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MISSISSIPPIUnspecified'}]},
+           {id: 'MISSOURI',
+            name: 'MISSOURI',
+            data: [{name: 'Part A', y: 1082, drilldown: 'MISSOURIPart A'},
+             {name: 'Part B', y: 3275, drilldown: 'MISSOURIPart B'},
+             {name: 'Part B of A', y: 137, drilldown: 'MISSOURIPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'MISSOURIPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MISSOURIUnspecified'}]},
+           {id: 'MONTANA',
+            name: 'MONTANA',
+            data: [{name: 'Part A', y: 106, drilldown: 'MONTANAPart A'},
+             {name: 'Part B', y: 679, drilldown: 'MONTANAPart B'},
+             {name: 'Part B of A', y: 4, drilldown: 'MONTANAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'MONTANAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'MONTANAUnspecified'}]},
+           {id: 'NEBRASKA',
+            name: 'NEBRASKA',
+            data: [{name: 'Part A', y: 289, drilldown: 'NEBRASKAPart A'},
+             {name: 'Part B', y: 906, drilldown: 'NEBRASKAPart B'},
+             {name: 'Part B of A', y: 15, drilldown: 'NEBRASKAPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'NEBRASKAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEBRASKAUnspecified'}]},
+           {id: 'NEVADA',
+            name: 'NEVADA',
+            data: [{name: 'Part A', y: 247, drilldown: 'NEVADAPart A'},
+             {name: 'Part B', y: 498, drilldown: 'NEVADAPart B'},
+             {name: 'Part B of A', y: 3, drilldown: 'NEVADAPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'NEVADAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEVADAUnspecified'}]},
+           {id: 'NEW HAMPSHIRE',
+            name: 'NEW HAMPSHIRE',
+            data: [{name: 'Part A', y: 221, drilldown: 'NEW HAMPSHIREPart A'},
+             {name: 'Part B', y: 291, drilldown: 'NEW HAMPSHIREPart B'},
+             {name: 'Part B of A', y: 54, drilldown: 'NEW HAMPSHIREPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'NEW HAMPSHIREPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEW HAMPSHIREUnspecified'}]},
+           {id: 'NEW JERSEY',
+            name: 'NEW JERSEY',
+            data: [{name: 'Part A', y: 792, drilldown: 'NEW JERSEYPart A'},
+             {name: 'Part B', y: 3651, drilldown: 'NEW JERSEYPart B'},
+             {name: 'Part B of A', y: 202, drilldown: 'NEW JERSEYPart B of A'},
+             {name: 'Part c', y: 7, drilldown: 'NEW JERSEYPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEW JERSEYUnspecified'}]},
+           {id: 'NEW MEXICO',
+            name: 'NEW MEXICO',
+            data: [{name: 'Part A', y: 675, drilldown: 'NEW MEXICOPart A'},
+             {name: 'Part B', y: 360, drilldown: 'NEW MEXICOPart B'},
+             {name: 'Part B of A', y: 317, drilldown: 'NEW MEXICOPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'NEW MEXICOPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEW MEXICOUnspecified'}]},
+           {id: 'NEW YORK',
+            name: 'NEW YORK',
+            data: [{name: 'Part A', y: 1288, drilldown: 'NEW YORKPart A'},
+             {name: 'Part B', y: 6082, drilldown: 'NEW YORKPart B'},
+             {name: 'Part B of A', y: 374, drilldown: 'NEW YORKPart B of A'},
+             {name: 'Part c', y: 34, drilldown: 'NEW YORKPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NEW YORKUnspecified'}]},
+           {id: 'NORTH CAROLINA',
+            name: 'NORTH CAROLINA',
+            data: [{name: 'Part A', y: 519, drilldown: 'NORTH CAROLINAPart A'},
+             {name: 'Part B', y: 1732, drilldown: 'NORTH CAROLINAPart B'},
+             {name: 'Part B of A', y: 331, drilldown: 'NORTH CAROLINAPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'NORTH CAROLINAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NORTH CAROLINAUnspecified'}]},
+           {id: 'NORTH DAKOTA',
+            name: 'NORTH DAKOTA',
+            data: [{name: 'Part A', y: 135, drilldown: 'NORTH DAKOTAPart A'},
+             {name: 'Part B', y: 252, drilldown: 'NORTH DAKOTAPart B'},
+             {name: 'Part B of A', y: 8, drilldown: 'NORTH DAKOTAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'NORTH DAKOTAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'NORTH DAKOTAUnspecified'}]},
+           {id: 'NORTHERN MARIANA ISLANDS',
+            name: 'NORTHERN MARIANA ISLANDS',
+            data: [{name: 'Part A',
+              y: 0,
+              drilldown: 'NORTHERN MARIANA ISLANDSPart A'},
+             {name: 'Part B', y: 0, drilldown: 'NORTHERN MARIANA ISLANDSPart B'},
+             {name: 'Part B of A',
+              y: 0,
+              drilldown: 'NORTHERN MARIANA ISLANDSPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'NORTHERN MARIANA ISLANDSPart C'},
+             {name: 'Unspecified',
+              y: 0,
+              drilldown: 'NORTHERN MARIANA ISLANDSUnspecified'}]},
+           {id: 'OHIO',
+            name: 'OHIO',
+            data: [{name: 'Part A', y: 786, drilldown: 'OHIOPart A'},
+             {name: 'Part B', y: 2910, drilldown: 'OHIOPart B'},
+             {name: 'Part B of A', y: 925, drilldown: 'OHIOPart B of A'},
+             {name: 'Part c', y: 7, drilldown: 'OHIOPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'OHIOUnspecified'}]},
+           {id: 'OKLAHOMA',
+            name: 'OKLAHOMA',
+            data: [{name: 'Part A', y: 481, drilldown: 'OKLAHOMAPart A'},
+             {name: 'Part B', y: 774, drilldown: 'OKLAHOMAPart B'},
+             {name: 'Part B of A', y: 132, drilldown: 'OKLAHOMAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'OKLAHOMAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'OKLAHOMAUnspecified'}]},
+           {id: 'OREGON',
+            name: 'OREGON',
+            data: [{name: 'Part A', y: 101, drilldown: 'OREGONPart A'},
+             {name: 'Part B', y: 591, drilldown: 'OREGONPart B'},
+             {name: 'Part B of A', y: 2, drilldown: 'OREGONPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'OREGONPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'OREGONUnspecified'}]},
+           {id: 'PALAU',
+            name: 'PALAU',
+            data: [{name: 'Part A', y: 0, drilldown: 'PALAUPart A'},
+             {name: 'Part B', y: 0, drilldown: 'PALAUPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'PALAUPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'PALAUPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'PALAUUnspecified'}]},
+           {id: 'PENNSYLVANIA',
+            name: 'PENNSYLVANIA',
+            data: [{name: 'Part A', y: 1910, drilldown: 'PENNSYLVANIAPart A'},
+             {name: 'Part B', y: 5162, drilldown: 'PENNSYLVANIAPart B'},
+             {name: 'Part B of A', y: 1062, drilldown: 'PENNSYLVANIAPart B of A'},
+             {name: 'Part c', y: 28, drilldown: 'PENNSYLVANIAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'PENNSYLVANIAUnspecified'}]},
+           {id: 'PUERTO RICO',
+            name: 'PUERTO RICO',
+            data: [{name: 'Part A', y: 140, drilldown: 'PUERTO RICOPart A'},
+             {name: 'Part B', y: 701, drilldown: 'PUERTO RICOPart B'},
+             {name: 'Part B of A', y: 15, drilldown: 'PUERTO RICOPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'PUERTO RICOPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'PUERTO RICOUnspecified'}]},
+           {id: 'RHODE ISLAND',
+            name: 'RHODE ISLAND',
+            data: [{name: 'Part A', y: 119, drilldown: 'RHODE ISLANDPart A'},
+             {name: 'Part B', y: 128, drilldown: 'RHODE ISLANDPart B'},
+             {name: 'Part B of A', y: 74, drilldown: 'RHODE ISLANDPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'RHODE ISLANDPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'RHODE ISLANDUnspecified'}]},
+           {id: 'SOUTH CAROLINA',
+            name: 'SOUTH CAROLINA',
+            data: [{name: 'Part A', y: 262, drilldown: 'SOUTH CAROLINAPart A'},
+             {name: 'Part B', y: 1168, drilldown: 'SOUTH CAROLINAPart B'},
+             {name: 'Part B of A', y: 77, drilldown: 'SOUTH CAROLINAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'SOUTH CAROLINAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'SOUTH CAROLINAUnspecified'}]},
+           {id: 'SOUTH DAKOTA',
+            name: 'SOUTH DAKOTA',
+            data: [{name: 'Part A', y: 180, drilldown: 'SOUTH DAKOTAPart A'},
+             {name: 'Part B', y: 227, drilldown: 'SOUTH DAKOTAPart B'},
+             {name: 'Part B of A', y: 8, drilldown: 'SOUTH DAKOTAPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'SOUTH DAKOTAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'SOUTH DAKOTAUnspecified'}]},
+           {id: 'TENNESSEE',
+            name: 'TENNESSEE',
+            data: [{name: 'Part A', y: 853, drilldown: 'TENNESSEEPart A'},
+             {name: 'Part B', y: 3073, drilldown: 'TENNESSEEPart B'},
+             {name: 'Part B of A', y: 519, drilldown: 'TENNESSEEPart B of A'},
+             {name: 'Part c', y: 4, drilldown: 'TENNESSEEPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'TENNESSEEUnspecified'}]},
+           {id: 'TEXAS',
+            name: 'TEXAS',
+            data: [{name: 'Part A', y: 2439, drilldown: 'TEXASPart A'},
+             {name: 'Part B', y: 9030, drilldown: 'TEXASPart B'},
+             {name: 'Part B of A', y: 1110, drilldown: 'TEXASPart B of A'},
+             {name: 'Part c', y: 3, drilldown: 'TEXASPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'TEXASUnspecified'}]},
+           {id: 'UTAH',
+            name: 'UTAH',
+            data: [{name: 'Part A', y: 349, drilldown: 'UTAHPart A'},
+             {name: 'Part B', y: 1446, drilldown: 'UTAHPart B'},
+             {name: 'Part B of A', y: 2, drilldown: 'UTAHPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'UTAHPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'UTAHUnspecified'}]},
+           {id: 'VERMONT',
+            name: 'VERMONT',
+            data: [{name: 'Part A', y: 137, drilldown: 'VERMONTPart A'},
+             {name: 'Part B', y: 71, drilldown: 'VERMONTPart B'},
+             {name: 'Part B of A', y: 28, drilldown: 'VERMONTPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'VERMONTPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'VERMONTUnspecified'}]},
+           {id: 'VIRGIN ISLANDS',
+            name: 'VIRGIN ISLANDS',
+            data: [{name: 'Part A', y: 0, drilldown: 'VIRGIN ISLANDSPart A'},
+             {name: 'Part B', y: 0, drilldown: 'VIRGIN ISLANDSPart B'},
+             {name: 'Part B of A', y: 0, drilldown: 'VIRGIN ISLANDSPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'VIRGIN ISLANDSPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'VIRGIN ISLANDSUnspecified'}]},
+           {id: 'VIRGINIA',
+            name: 'VIRGINIA',
+            data: [{name: 'Part A', y: 598, drilldown: 'VIRGINIAPart A'},
+             {name: 'Part B', y: 1947, drilldown: 'VIRGINIAPart B'},
+             {name: 'Part B of A', y: 331, drilldown: 'VIRGINIAPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'VIRGINIAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'VIRGINIAUnspecified'}]},
+           {id: 'WASHINGTON',
+            name: 'WASHINGTON',
+            data: [{name: 'Part A', y: 396, drilldown: 'WASHINGTONPart A'},
+             {name: 'Part B', y: 2053, drilldown: 'WASHINGTONPart B'},
+             {name: 'Part B of A', y: 39, drilldown: 'WASHINGTONPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'WASHINGTONPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'WASHINGTONUnspecified'}]},
+           {id: 'WEST VIRGINIA',
+            name: 'WEST VIRGINIA',
+            data: [{name: 'Part A', y: 447, drilldown: 'WEST VIRGINIAPart A'},
+             {name: 'Part B', y: 473, drilldown: 'WEST VIRGINIAPart B'},
+             {name: 'Part B of A', y: 151, drilldown: 'WEST VIRGINIAPart B of A'},
+             {name: 'Part c', y: 1, drilldown: 'WEST VIRGINIAPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'WEST VIRGINIAUnspecified'}]},
+           {id: 'WISCONSIN',
+            name: 'WISCONSIN',
+            data: [{name: 'Part A', y: 1125, drilldown: 'WISCONSINPart A'},
+             {name: 'Part B', y: 905, drilldown: 'WISCONSINPart B'},
+             {name: 'Part B of A', y: 1030, drilldown: 'WISCONSINPart B of A'},
+             {name: 'Part c', y: 2, drilldown: 'WISCONSINPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'WISCONSINUnspecified'}]},
+           {id: 'WYOMING',
+            name: 'WYOMING',
+            data: [{name: 'Part A', y: 51, drilldown: 'WYOMINGPart A'},
+             {name: 'Part B', y: 309, drilldown: 'WYOMINGPart B'},
+             {name: 'Part B of A', y: 4, drilldown: 'WYOMINGPart B of A'},
+             {name: 'Part c', y: 0, drilldown: 'WYOMINGPart C'},
+             {name: 'Unspecified', y: 0, drilldown: 'WYOMINGUnspecified'}]},
+             {id: 'ALABAMAPart A',
+            name: 'ALABAMA Part A',
+            type: 'pie',
+            data: [['Approved', 365], ['Denied', 243]]},
+           {id: 'ALABAMAPart B',
+            name: 'ALABAMA Part B',
+            type: 'pie',
+            data: [['Approved', 769], ['Denied', 711]]},
+           {id: 'ALABAMAPart B of A',
+            name: 'ALABAMA Part B of A',
+            type: 'pie',
+            data: [['Approved', 166], ['Denied', 132]]},
+           {id: 'ALABAMAPart C',
+            name: 'ALABAMA Part C',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 1]]},
+           {id: 'ALABAMAUnspecified',
+            name: 'ALABAMA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ALASKAPart A',
+            name: 'ALASKA Part A',
+            type: 'pie',
+            data: [['Approved', 30], ['Denied', 9]]},
+           {id: 'ALASKAPart B',
+            name: 'ALASKA Part B',
+            type: 'pie',
+            data: [['Approved', 47], ['Denied', 34]]},
+           {id: 'ALASKAPart B of A',
+            name: 'ALASKA Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ALASKAPart C',
+            name: 'ALASKA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ALASKAUnspecified',
+            name: 'ALASKA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'AMERICAN SAMOAPart A',
+            name: 'AMERICAN SAMOA Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'AMERICAN SAMOAPart B',
+            name: 'AMERICAN SAMOA Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'AMERICAN SAMOAPart B of A',
+            name: 'AMERICAN SAMOA Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'AMERICAN SAMOAPart C',
+            name: 'AMERICAN SAMOA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'AMERICAN SAMOAUnspecified',
+            name: 'AMERICAN SAMOA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ARIZONAPart A',
+            name: 'ARIZONA Part A',
+            type: 'pie',
+            data: [['Approved', 480], ['Denied', 239]]},
+           {id: 'ARIZONAPart B',
+            name: 'ARIZONA Part B',
+            type: 'pie',
+            data: [['Approved', 927], ['Denied', 645]]},
+           {id: 'ARIZONAPart B of A',
+            name: 'ARIZONA Part B of A',
+            type: 'pie',
+            data: [['Approved', 10], ['Denied', 8]]},
+           {id: 'ARIZONAPart C',
+            name: 'ARIZONA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 5]]},
+           {id: 'ARIZONAUnspecified',
+            name: 'ARIZONA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ARKANSASPart A',
+            name: 'ARKANSAS Part A',
+            type: 'pie',
+            data: [['Approved', 385], ['Denied', 384]]},
+           {id: 'ARKANSASPart B',
+            name: 'ARKANSAS Part B',
+            type: 'pie',
+            data: [['Approved', 734], ['Denied', 749]]},
+           {id: 'ARKANSASPart B of A',
+            name: 'ARKANSAS Part B of A',
+            type: 'pie',
+            data: [['Approved', 157], ['Denied', 145]]},
+           {id: 'ARKANSASPart C',
+            name: 'ARKANSAS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ARKANSASUnspecified',
+            name: 'ARKANSAS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'CALIFORNIAPart A',
+            name: 'CALIFORNIA Part A',
+            type: 'pie',
+            data: [['Approved', 1951], ['Denied', 1368]]},
+           {id: 'CALIFORNIAPart B',
+            name: 'CALIFORNIA Part B',
+            type: 'pie',
+            data: [['Approved', 6329], ['Denied', 6655]]},
+           {id: 'CALIFORNIAPart B of A',
+            name: 'CALIFORNIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 81], ['Denied', 60]]},
+           {id: 'CALIFORNIAPart C',
+            name: 'CALIFORNIA Part C',
+            type: 'pie',
+            data: [['Approved', 6], ['Denied', 14]]},
+           {id: 'CALIFORNIAUnspecified',
+            name: 'CALIFORNIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'COLORADOPart A',
+            name: 'COLORADO Part A',
+            type: 'pie',
+            data: [['Approved', 454], ['Denied', 191]]},
+           {id: 'COLORADOPart B',
+            name: 'COLORADO Part B',
+            type: 'pie',
+            data: [['Approved', 868], ['Denied', 758]]},
+           {id: 'COLORADOPart B of A',
+            name: 'COLORADO Part B of A',
+            type: 'pie',
+            data: [['Approved', 66], ['Denied', 67]]},
+           {id: 'COLORADOPart C',
+            name: 'COLORADO Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 0]]},
+           {id: 'COLORADOUnspecified',
+            name: 'COLORADO Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'CONNECTICUTPart A',
+            name: 'CONNECTICUT Part A',
+            type: 'pie',
+            data: [['Approved', 479], ['Denied', 583]]},
+           {id: 'CONNECTICUTPart B',
+            name: 'CONNECTICUT Part B',
+            type: 'pie',
+            data: [['Approved', 773], ['Denied', 540]]},
+           {id: 'CONNECTICUTPart B of A',
+            name: 'CONNECTICUT Part B of A',
+            type: 'pie',
+            data: [['Approved', 141], ['Denied', 105]]},
+           {id: 'CONNECTICUTPart C',
+            name: 'CONNECTICUT Part C',
+            type: 'pie',
+            data: [['Approved', 3], ['Denied', 2]]},
+           {id: 'CONNECTICUTUnspecified',
+            name: 'CONNECTICUT Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'DELAWAREPart A',
+            name: 'DELAWARE Part A',
+            type: 'pie',
+            data: [['Approved', 98], ['Denied', 65]]},
+           {id: 'DELAWAREPart B',
+            name: 'DELAWARE Part B',
+            type: 'pie',
+            data: [['Approved', 183], ['Denied', 130]]},
+           {id: 'DELAWAREPart B of A',
+            name: 'DELAWARE Part B of A',
+            type: 'pie',
+            data: [['Approved', 116], ['Denied', 56]]},
+           {id: 'DELAWAREPart C',
+            name: 'DELAWARE Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'DELAWAREUnspecified',
+            name: 'DELAWARE Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'DISTRICT OF COLUMBIAPart A',
+            name: 'DISTRICT OF COLUMBIA Part A',
+            type: 'pie',
+            data: [['Approved', 6], ['Denied', 9]]},
+           {id: 'DISTRICT OF COLUMBIAPart B',
+            name: 'DISTRICT OF COLUMBIA Part B',
+            type: 'pie',
+            data: [['Approved', 57], ['Denied', 59]]},
+           {id: 'DISTRICT OF COLUMBIAPart B of A',
+            name: 'DISTRICT OF COLUMBIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 6], ['Denied', 9]]},
+           {id: 'DISTRICT OF COLUMBIAPart C',
+            name: 'DISTRICT OF COLUMBIA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'DISTRICT OF COLUMBIAUnspecified',
+            name: 'DISTRICT OF COLUMBIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FEDERATED STATES OF MICRONESIAPart A',
+            name: 'FEDERATED STATES OF MICRONESIA Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FEDERATED STATES OF MICRONESIAPart B',
+            name: 'FEDERATED STATES OF MICRONESIA Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FEDERATED STATES OF MICRONESIAPart B of A',
+            name: 'FEDERATED STATES OF MICRONESIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FEDERATED STATES OF MICRONESIAPart C',
+            name: 'FEDERATED STATES OF MICRONESIA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FEDERATED STATES OF MICRONESIAUnspecified',
+            name: 'FEDERATED STATES OF MICRONESIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'FLORIDAPart A',
+            name: 'FLORIDA Part A',
+            type: 'pie',
+            data: [['Approved', 2620], ['Denied', 1825]]},
+           {id: 'FLORIDAPart B',
+            name: 'FLORIDA Part B',
+            type: 'pie',
+            data: [['Approved', 11508], ['Denied', 12526]]},
+           {id: 'FLORIDAPart B of A',
+            name: 'FLORIDA Part B of A',
+            type: 'pie',
+            data: [['Approved', 1294], ['Denied', 1091]]},
+           {id: 'FLORIDAPart C',
+            name: 'FLORIDA Part C',
+            type: 'pie',
+            data: [['Approved', 12], ['Denied', 48]]},
+           {id: 'FLORIDAUnspecified',
+            name: 'FLORIDA Unspecified',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 5]]},
+           {id: 'GEORGIAPart A',
+            name: 'GEORGIA Part A',
+            type: 'pie',
+            data: [['Approved', 301], ['Denied', 198]]},
+           {id: 'GEORGIAPart B',
+            name: 'GEORGIA Part B',
+            type: 'pie',
+            data: [['Approved', 1487], ['Denied', 1297]]},
+           {id: 'GEORGIAPart B of A',
+            name: 'GEORGIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 91], ['Denied', 48]]},
+           {id: 'GEORGIAPart C',
+            name: 'GEORGIA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GEORGIAUnspecified',
+            name: 'GEORGIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GUAM GUPart A',
+            name: 'GUAM GU Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GUAM GUPart B',
+            name: 'GUAM GU Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GUAM GUPart B of A',
+            name: 'GUAM GU Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GUAM GUPart C',
+            name: 'GUAM GU Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'GUAM GUUnspecified',
+            name: 'GUAM GU Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'HAWAIIPart A',
+            name: 'HAWAII Part A',
+            type: 'pie',
+            data: [['Approved', 77], ['Denied', 25]]},
+           {id: 'HAWAIIPart B',
+            name: 'HAWAII Part B',
+            type: 'pie',
+            data: [['Approved', 34], ['Denied', 27]]},
+           {id: 'HAWAIIPart B of A',
+            name: 'HAWAII Part B of A',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 2]]},
+           {id: 'HAWAIIPart C',
+            name: 'HAWAII Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 0]]},
+           {id: 'HAWAIIUnspecified',
+            name: 'HAWAII Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'IDAHOPart A',
+            name: 'IDAHO Part A',
+            type: 'pie',
+            data: [['Approved', 157], ['Denied', 86]]},
+           {id: 'IDAHOPart B',
+            name: 'IDAHO Part B',
+            type: 'pie',
+            data: [['Approved', 224], ['Denied', 171]]},
+           {id: 'IDAHOPart B of A',
+            name: 'IDAHO Part B of A',
+            type: 'pie',
+            data: [['Approved', 8], ['Denied', 5]]},
+           {id: 'IDAHOPart C',
+            name: 'IDAHO Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'IDAHOUnspecified',
+            name: 'IDAHO Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'ILLINOISPart A',
+            name: 'ILLINOIS Part A',
+            type: 'pie',
+            data: [['Approved', 428], ['Denied', 267]]},
+           {id: 'ILLINOISPart B',
+            name: 'ILLINOIS Part B',
+            type: 'pie',
+            data: [['Approved', 1920], ['Denied', 1406]]},
+           {id: 'ILLINOISPart B of A',
+            name: 'ILLINOIS Part B of A',
+            type: 'pie',
+            data: [['Approved', 362], ['Denied', 273]]},
+           {id: 'ILLINOISPart C',
+            name: 'ILLINOIS Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'ILLINOISUnspecified',
+            name: 'ILLINOIS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'INDIANAPart A',
+            name: 'INDIANA Part A',
+            type: 'pie',
+            data: [['Approved', 361], ['Denied', 242]]},
+           {id: 'INDIANAPart B',
+            name: 'INDIANA Part B',
+            type: 'pie',
+            data: [['Approved', 1196], ['Denied', 1128]]},
+           {id: 'INDIANAPart B of A',
+            name: 'INDIANA Part B of A',
+            type: 'pie',
+            data: [['Approved', 277], ['Denied', 232]]},
+           {id: 'INDIANAPart C',
+            name: 'INDIANA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'INDIANAUnspecified',
+            name: 'INDIANA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'IOWAPart A',
+            name: 'IOWA Part A',
+            type: 'pie',
+            data: [['Approved', 439], ['Denied', 272]]},
+           {id: 'IOWAPart B',
+            name: 'IOWA Part B',
+            type: 'pie',
+            data: [['Approved', 453], ['Denied', 290]]},
+           {id: 'IOWAPart B of A',
+            name: 'IOWA Part B of A',
+            type: 'pie',
+            data: [['Approved', 17], ['Denied', 9]]},
+           {id: 'IOWAPart C',
+            name: 'IOWA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'IOWAUnspecified',
+            name: 'IOWA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'KANSASPart A',
+            name: 'KANSAS Part A',
+            type: 'pie',
+            data: [['Approved', 244], ['Denied', 141]]},
+           {id: 'KANSASPart B',
+            name: 'KANSAS Part B',
+            type: 'pie',
+            data: [['Approved', 538], ['Denied', 434]]},
+           {id: 'KANSASPart B of A',
+            name: 'KANSAS Part B of A',
+            type: 'pie',
+            data: [['Approved', 19], ['Denied', 14]]},
+           {id: 'KANSASPart C',
+            name: 'KANSAS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'KANSASUnspecified',
+            name: 'KANSAS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'KENTUCKYPart A',
+            name: 'KENTUCKY Part A',
+            type: 'pie',
+            data: [['Approved', 203], ['Denied', 158]]},
+           {id: 'KENTUCKYPart B',
+            name: 'KENTUCKY Part B',
+            type: 'pie',
+            data: [['Approved', 472], ['Denied', 413]]},
+           {id: 'KENTUCKYPart B of A',
+            name: 'KENTUCKY Part B of A',
+            type: 'pie',
+            data: [['Approved', 256], ['Denied', 167]]},
+           {id: 'KENTUCKYPart C',
+            name: 'KENTUCKY Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'KENTUCKYUnspecified',
+            name: 'KENTUCKY Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'LOUISIANAPart A',
+            name: 'LOUISIANA Part A',
+            type: 'pie',
+            data: [['Approved', 279], ['Denied', 197]]},
+           {id: 'LOUISIANAPart B',
+            name: 'LOUISIANA Part B',
+            type: 'pie',
+            data: [['Approved', 580], ['Denied', 508]]},
+           {id: 'LOUISIANAPart B of A',
+            name: 'LOUISIANA Part B of A',
+            type: 'pie',
+            data: [['Approved', 59], ['Denied', 53]]},
+           {id: 'LOUISIANAPart C',
+            name: 'LOUISIANA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'LOUISIANAUnspecified',
+            name: 'LOUISIANA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MAINEPart A',
+            name: 'MAINE Part A',
+            type: 'pie',
+            data: [['Approved', 122], ['Denied', 54]]},
+           {id: 'MAINEPart B',
+            name: 'MAINE Part B',
+            type: 'pie',
+            data: [['Approved', 163], ['Denied', 139]]},
+           {id: 'MAINEPart B of A',
+            name: 'MAINE Part B of A',
+            type: 'pie',
+            data: [['Approved', 47], ['Denied', 23]]},
+           {id: 'MAINEPart C',
+            name: 'MAINE Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MAINEUnspecified',
+            name: 'MAINE Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARSHALL ISLANDSPart A',
+            name: 'MARSHALL ISLANDS Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARSHALL ISLANDSPart B',
+            name: 'MARSHALL ISLANDS Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARSHALL ISLANDSPart B of A',
+            name: 'MARSHALL ISLANDS Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARSHALL ISLANDSPart C',
+            name: 'MARSHALL ISLANDS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARSHALL ISLANDSUnspecified',
+            name: 'MARSHALL ISLANDS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MARYLANDPart A',
+            name: 'MARYLAND Part A',
+            type: 'pie',
+            data: [['Approved', 123], ['Denied', 134]]},
+           {id: 'MARYLANDPart B',
+            name: 'MARYLAND Part B',
+            type: 'pie',
+            data: [['Approved', 875], ['Denied', 1107]]},
+           {id: 'MARYLANDPart B of A',
+            name: 'MARYLAND Part B of A',
+            type: 'pie',
+            data: [['Approved', 96], ['Denied', 53]]},
+           {id: 'MARYLANDPart C',
+            name: 'MARYLAND Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 2]]},
+           {id: 'MARYLANDUnspecified',
+            name: 'MARYLAND Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MASSACHUSETTSPart A',
+            name: 'MASSACHUSETTS Part A',
+            type: 'pie',
+            data: [['Approved', 647], ['Denied', 788]]},
+           {id: 'MASSACHUSETTSPart B',
+            name: 'MASSACHUSETTS Part B',
+            type: 'pie',
+            data: [['Approved', 970], ['Denied', 748]]},
+           {id: 'MASSACHUSETTSPart B of A',
+            name: 'MASSACHUSETTS Part B of A',
+            type: 'pie',
+            data: [['Approved', 181], ['Denied', 155]]},
+           {id: 'MASSACHUSETTSPart C',
+            name: 'MASSACHUSETTS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 3]]},
+           {id: 'MASSACHUSETTSUnspecified',
+            name: 'MASSACHUSETTS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MICHIGANPart A',
+            name: 'MICHIGAN Part A',
+            type: 'pie',
+            data: [['Approved', 1059], ['Denied', 577]]},
+           {id: 'MICHIGANPart B',
+            name: 'MICHIGAN Part B',
+            type: 'pie',
+            data: [['Approved', 1449], ['Denied', 1444]]},
+           {id: 'MICHIGANPart B of A',
+            name: 'MICHIGAN Part B of A',
+            type: 'pie',
+            data: [['Approved', 290], ['Denied', 179]]},
+           {id: 'MICHIGANPart C',
+            name: 'MICHIGAN Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 0]]},
+           {id: 'MICHIGANUnspecified',
+            name: 'MICHIGAN Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MINNESOTAPart A',
+            name: 'MINNESOTA Part A',
+            type: 'pie',
+            data: [['Approved', 139], ['Denied', 74]]},
+           {id: 'MINNESOTAPart B',
+            name: 'MINNESOTA Part B',
+            type: 'pie',
+            data: [['Approved', 1702], ['Denied', 1498]]},
+           {id: 'MINNESOTAPart B of A',
+            name: 'MINNESOTA Part B of A',
+            type: 'pie',
+            data: [['Approved', 51], ['Denied', 39]]},
+           {id: 'MINNESOTAPart C',
+            name: 'MINNESOTA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'MINNESOTAUnspecified',
+            name: 'MINNESOTA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MISSISSIPPIPart A',
+            name: 'MISSISSIPPI Part A',
+            type: 'pie',
+            data: [['Approved', 163], ['Denied', 153]]},
+           {id: 'MISSISSIPPIPart B',
+            name: 'MISSISSIPPI Part B',
+            type: 'pie',
+            data: [['Approved', 436], ['Denied', 428]]},
+           {id: 'MISSISSIPPIPart B of A',
+            name: 'MISSISSIPPI Part B of A',
+            type: 'pie',
+            data: [['Approved', 45], ['Denied', 46]]},
+           {id: 'MISSISSIPPIPart C',
+            name: 'MISSISSIPPI Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MISSISSIPPIUnspecified',
+            name: 'MISSISSIPPI Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MISSOURIPart A',
+            name: 'MISSOURI Part A',
+            type: 'pie',
+            data: [['Approved', 680], ['Denied', 402]]},
+           {id: 'MISSOURIPart B',
+            name: 'MISSOURI Part B',
+            type: 'pie',
+            data: [['Approved', 1956], ['Denied', 1319]]},
+           {id: 'MISSOURIPart B of A',
+            name: 'MISSOURI Part B of A',
+            type: 'pie',
+            data: [['Approved', 84], ['Denied', 53]]},
+           {id: 'MISSOURIPart C',
+            name: 'MISSOURI Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'MISSOURIUnspecified',
+            name: 'MISSOURI Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MONTANAPart A',
+            name: 'MONTANA Part A',
+            type: 'pie',
+            data: [['Approved', 80], ['Denied', 26]]},
+           {id: 'MONTANAPart B',
+            name: 'MONTANA Part B',
+            type: 'pie',
+            data: [['Approved', 456], ['Denied', 223]]},
+           {id: 'MONTANAPart B of A',
+            name: 'MONTANA Part B of A',
+            type: 'pie',
+            data: [['Approved', 3], ['Denied', 1]]},
+           {id: 'MONTANAPart C',
+            name: 'MONTANA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'MONTANAUnspecified',
+            name: 'MONTANA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEBRASKAPart A',
+            name: 'NEBRASKA Part A',
+            type: 'pie',
+            data: [['Approved', 186], ['Denied', 103]]},
+           {id: 'NEBRASKAPart B',
+            name: 'NEBRASKA Part B',
+            type: 'pie',
+            data: [['Approved', 511], ['Denied', 395]]},
+           {id: 'NEBRASKAPart B of A',
+            name: 'NEBRASKA Part B of A',
+            type: 'pie',
+            data: [['Approved', 9], ['Denied', 6]]},
+           {id: 'NEBRASKAPart C',
+            name: 'NEBRASKA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'NEBRASKAUnspecified',
+            name: 'NEBRASKA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEVADAPart A',
+            name: 'NEVADA Part A',
+            type: 'pie',
+            data: [['Approved', 140], ['Denied', 107]]},
+           {id: 'NEVADAPart B',
+            name: 'NEVADA Part B',
+            type: 'pie',
+            data: [['Approved', 276], ['Denied', 222]]},
+           {id: 'NEVADAPart B of A',
+            name: 'NEVADA Part B of A',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 1]]},
+           {id: 'NEVADAPart C',
+            name: 'NEVADA Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'NEVADAUnspecified',
+            name: 'NEVADA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEW HAMPSHIREPart A',
+            name: 'NEW HAMPSHIRE Part A',
+            type: 'pie',
+            data: [['Approved', 156], ['Denied', 65]]},
+           {id: 'NEW HAMPSHIREPart B',
+            name: 'NEW HAMPSHIRE Part B',
+            type: 'pie',
+            data: [['Approved', 173], ['Denied', 118]]},
+           {id: 'NEW HAMPSHIREPart B of A',
+            name: 'NEW HAMPSHIRE Part B of A',
+            type: 'pie',
+            data: [['Approved', 27], ['Denied', 27]]},
+           {id: 'NEW HAMPSHIREPart C',
+            name: 'NEW HAMPSHIRE Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEW HAMPSHIREUnspecified',
+            name: 'NEW HAMPSHIRE Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEW JERSEYPart A',
+            name: 'NEW JERSEY Part A',
+            type: 'pie',
+            data: [['Approved', 503], ['Denied', 289]]},
+           {id: 'NEW JERSEYPart B',
+            name: 'NEW JERSEY Part B',
+            type: 'pie',
+            data: [['Approved', 1742], ['Denied', 1909]]},
+           {id: 'NEW JERSEYPart B of A',
+            name: 'NEW JERSEY Part B of A',
+            type: 'pie',
+            data: [['Approved', 120], ['Denied', 82]]},
+           {id: 'NEW JERSEYPart C',
+            name: 'NEW JERSEY Part C',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 5]]},
+           {id: 'NEW JERSEYUnspecified',
+            name: 'NEW JERSEY Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEW MEXICOPart A',
+            name: 'NEW MEXICO Part A',
+            type: 'pie',
+            data: [['Approved', 434], ['Denied', 241]]},
+           {id: 'NEW MEXICOPart B',
+            name: 'NEW MEXICO Part B',
+            type: 'pie',
+            data: [['Approved', 198], ['Denied', 162]]},
+           {id: 'NEW MEXICOPart B of A',
+            name: 'NEW MEXICO Part B of A',
+            type: 'pie',
+            data: [['Approved', 189], ['Denied', 128]]},
+           {id: 'NEW MEXICOPart C',
+            name: 'NEW MEXICO Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'NEW MEXICOUnspecified',
+            name: 'NEW MEXICO Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NEW YORKPart A',
+            name: 'NEW YORK Part A',
+            type: 'pie',
+            data: [['Approved', 772], ['Denied', 516]]},
+           {id: 'NEW YORKPart B',
+            name: 'NEW YORK Part B',
+            type: 'pie',
+            data: [['Approved', 3184], ['Denied', 2898]]},
+           {id: 'NEW YORKPart B of A',
+            name: 'NEW YORK Part B of A',
+            type: 'pie',
+            data: [['Approved', 229], ['Denied', 145]]},
+           {id: 'NEW YORKPart C',
+            name: 'NEW YORK Part C',
+            type: 'pie',
+            data: [['Approved', 8], ['Denied', 26]]},
+           {id: 'NEW YORKUnspecified',
+            name: 'NEW YORK Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTH CAROLINAPart A',
+            name: 'NORTH CAROLINA Part A',
+            type: 'pie',
+            data: [['Approved', 300], ['Denied', 219]]},
+           {id: 'NORTH CAROLINAPart B',
+            name: 'NORTH CAROLINA Part B',
+            type: 'pie',
+            data: [['Approved', 958], ['Denied', 774]]},
+           {id: 'NORTH CAROLINAPart B of A',
+            name: 'NORTH CAROLINA Part B of A',
+            type: 'pie',
+            data: [['Approved', 188], ['Denied', 143]]},
+           {id: 'NORTH CAROLINAPart C',
+            name: 'NORTH CAROLINA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'NORTH CAROLINAUnspecified',
+            name: 'NORTH CAROLINA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTH DAKOTAPart A',
+            name: 'NORTH DAKOTA Part A',
+            type: 'pie',
+            data: [['Approved', 99], ['Denied', 36]]},
+           {id: 'NORTH DAKOTAPart B',
+            name: 'NORTH DAKOTA Part B',
+            type: 'pie',
+            data: [['Approved', 146], ['Denied', 106]]},
+           {id: 'NORTH DAKOTAPart B of A',
+            name: 'NORTH DAKOTA Part B of A',
+            type: 'pie',
+            data: [['Approved', 6], ['Denied', 2]]},
+           {id: 'NORTH DAKOTAPart C',
+            name: 'NORTH DAKOTA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTH DAKOTAUnspecified',
+            name: 'NORTH DAKOTA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTHERN MARIANA ISLANDSPart A',
+            name: 'NORTHERN MARIANA ISLANDS Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTHERN MARIANA ISLANDSPart B',
+            name: 'NORTHERN MARIANA ISLANDS Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTHERN MARIANA ISLANDSPart B of A',
+            name: 'NORTHERN MARIANA ISLANDS Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTHERN MARIANA ISLANDSPart C',
+            name: 'NORTHERN MARIANA ISLANDS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'NORTHERN MARIANA ISLANDSUnspecified',
+            name: 'NORTHERN MARIANA ISLANDS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'OHIOPart A',
+            name: 'OHIO Part A',
+            type: 'pie',
+            data: [['Approved', 511], ['Denied', 275]]},
+           {id: 'OHIOPart B',
+            name: 'OHIO Part B',
+            type: 'pie',
+            data: [['Approved', 1566], ['Denied', 1344]]},
+           {id: 'OHIOPart B of A',
+            name: 'OHIO Part B of A',
+            type: 'pie',
+            data: [['Approved', 538], ['Denied', 387]]},
+           {id: 'OHIOPart C',
+            name: 'OHIO Part C',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 5]]},
+           {id: 'OHIOUnspecified',
+            name: 'OHIO Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'OKLAHOMAPart A',
+            name: 'OKLAHOMA Part A',
+            type: 'pie',
+            data: [['Approved', 339], ['Denied', 142]]},
+           {id: 'OKLAHOMAPart B',
+            name: 'OKLAHOMA Part B',
+            type: 'pie',
+            data: [['Approved', 426], ['Denied', 348]]},
+           {id: 'OKLAHOMAPart B of A',
+            name: 'OKLAHOMA Part B of A',
+            type: 'pie',
+            data: [['Approved', 62], ['Denied', 70]]},
+           {id: 'OKLAHOMAPart C',
+            name: 'OKLAHOMA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'OKLAHOMAUnspecified',
+            name: 'OKLAHOMA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'OREGONPart A',
+            name: 'OREGON Part A',
+            type: 'pie',
+            data: [['Approved', 78], ['Denied', 23]]},
+           {id: 'OREGONPart B',
+            name: 'OREGON Part B',
+            type: 'pie',
+            data: [['Approved', 341], ['Denied', 250]]},
+           {id: 'OREGONPart B of A',
+            name: 'OREGON Part B of A',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'OREGONPart C',
+            name: 'OREGON Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'OREGONUnspecified',
+            name: 'OREGON Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PALAUPart A',
+            name: 'PALAU Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PALAUPart B',
+            name: 'PALAU Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PALAUPart B of A',
+            name: 'PALAU Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PALAUPart C',
+            name: 'PALAU Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PALAUUnspecified',
+            name: 'PALAU Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PENNSYLVANIAPart A',
+            name: 'PENNSYLVANIA Part A',
+            type: 'pie',
+            data: [['Approved', 1227], ['Denied', 683]]},
+           {id: 'PENNSYLVANIAPart B',
+            name: 'PENNSYLVANIA Part B',
+            type: 'pie',
+            data: [['Approved', 3010], ['Denied', 2152]]},
+           {id: 'PENNSYLVANIAPart B of A',
+            name: 'PENNSYLVANIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 611], ['Denied', 451]]},
+           {id: 'PENNSYLVANIAPart C',
+            name: 'PENNSYLVANIA Part C',
+            type: 'pie',
+            data: [['Approved', 10], ['Denied', 18]]},
+           {id: 'PENNSYLVANIAUnspecified',
+            name: 'PENNSYLVANIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PUERTO RICOPart A',
+            name: 'PUERTO RICO Part A',
+            type: 'pie',
+            data: [['Approved', 79], ['Denied', 61]]},
+           {id: 'PUERTO RICOPart B',
+            name: 'PUERTO RICO Part B',
+            type: 'pie',
+            data: [['Approved', 257], ['Denied', 444]]},
+           {id: 'PUERTO RICOPart B of A',
+            name: 'PUERTO RICO Part B of A',
+            type: 'pie',
+            data: [['Approved', 8], ['Denied', 7]]},
+           {id: 'PUERTO RICOPart C',
+            name: 'PUERTO RICO Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'PUERTO RICOUnspecified',
+            name: 'PUERTO RICO Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'RHODE ISLANDPart A',
+            name: 'RHODE ISLAND Part A',
+            type: 'pie',
+            data: [['Approved', 74], ['Denied', 45]]},
+           {id: 'RHODE ISLANDPart B',
+            name: 'RHODE ISLAND Part B',
+            type: 'pie',
+            data: [['Approved', 67], ['Denied', 61]]},
+           {id: 'RHODE ISLANDPart B of A',
+            name: 'RHODE ISLAND Part B of A',
+            type: 'pie',
+            data: [['Approved', 66], ['Denied', 8]]},
+           {id: 'RHODE ISLANDPart C',
+            name: 'RHODE ISLAND Part C',
+            type: 'pie',
+            data: [['Approved', 2], ['Denied', 0]]},
+           {id: 'RHODE ISLANDUnspecified',
+            name: 'RHODE ISLAND Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'SOUTH CAROLINAPart A',
+            name: 'SOUTH CAROLINA Part A',
+            type: 'pie',
+            data: [['Approved', 167], ['Denied', 95]]},
+           {id: 'SOUTH CAROLINAPart B',
+            name: 'SOUTH CAROLINA Part B',
+            type: 'pie',
+            data: [['Approved', 618], ['Denied', 550]]},
+           {id: 'SOUTH CAROLINAPart B of A',
+            name: 'SOUTH CAROLINA Part B of A',
+            type: 'pie',
+            data: [['Approved', 42], ['Denied', 35]]},
+           {id: 'SOUTH CAROLINAPart C',
+            name: 'SOUTH CAROLINA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'SOUTH CAROLINAUnspecified',
+            name: 'SOUTH CAROLINA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'SOUTH DAKOTAPart A',
+            name: 'SOUTH DAKOTA Part A',
+            type: 'pie',
+            data: [['Approved', 134], ['Denied', 46]]},
+           {id: 'SOUTH DAKOTAPart B',
+            name: 'SOUTH DAKOTA Part B',
+            type: 'pie',
+            data: [['Approved', 131], ['Denied', 96]]},
+           {id: 'SOUTH DAKOTAPart B of A',
+            name: 'SOUTH DAKOTA Part B of A',
+            type: 'pie',
+            data: [['Approved', 4], ['Denied', 4]]},
+           {id: 'SOUTH DAKOTAPart C',
+            name: 'SOUTH DAKOTA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'SOUTH DAKOTAUnspecified',
+            name: 'SOUTH DAKOTA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'TENNESSEEPart A',
+            name: 'TENNESSEE Part A',
+            type: 'pie',
+            data: [['Approved', 552], ['Denied', 301]]},
+           {id: 'TENNESSEEPart B',
+            name: 'TENNESSEE Part B',
+            type: 'pie',
+            data: [['Approved', 1579], ['Denied', 1494]]},
+           {id: 'TENNESSEEPart B of A',
+            name: 'TENNESSEE Part B of A',
+            type: 'pie',
+            data: [['Approved', 300], ['Denied', 219]]},
+           {id: 'TENNESSEEPart C',
+            name: 'TENNESSEE Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 3]]},
+           {id: 'TENNESSEEUnspecified',
+            name: 'TENNESSEE Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'TEXASPart A',
+            name: 'TEXAS Part A',
+            type: 'pie',
+            data: [['Approved', 1432], ['Denied', 1007]]},
+           {id: 'TEXASPart B',
+            name: 'TEXAS Part B',
+            type: 'pie',
+            data: [['Approved', 4198], ['Denied', 4832]]},
+           {id: 'TEXASPart B of A',
+            name: 'TEXAS Part B of A',
+            type: 'pie',
+            data: [['Approved', 583], ['Denied', 527]]},
+           {id: 'TEXASPart C',
+            name: 'TEXAS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 3]]},
+           {id: 'TEXASUnspecified',
+            name: 'TEXAS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'UTAHPart A',
+            name: 'UTAH Part A',
+            type: 'pie',
+            data: [['Approved', 212], ['Denied', 137]]},
+           {id: 'UTAHPart B',
+            name: 'UTAH Part B',
+            type: 'pie',
+            data: [['Approved', 761], ['Denied', 685]]},
+           {id: 'UTAHPart B of A',
+            name: 'UTAH Part B of A',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'UTAHPart C',
+            name: 'UTAH Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 2]]},
+           {id: 'UTAHUnspecified',
+            name: 'UTAH Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VERMONTPart A',
+            name: 'VERMONT Part A',
+            type: 'pie',
+            data: [['Approved', 77], ['Denied', 60]]},
+           {id: 'VERMONTPart B',
+            name: 'VERMONT Part B',
+            type: 'pie',
+            data: [['Approved', 49], ['Denied', 22]]},
+           {id: 'VERMONTPart B of A',
+            name: 'VERMONT Part B of A',
+            type: 'pie',
+            data: [['Approved', 22], ['Denied', 6]]},
+           {id: 'VERMONTPart C',
+            name: 'VERMONT Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VERMONTUnspecified',
+            name: 'VERMONT Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGIN ISLANDSPart A',
+            name: 'VIRGIN ISLANDS Part A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGIN ISLANDSPart B',
+            name: 'VIRGIN ISLANDS Part B',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGIN ISLANDSPart B of A',
+            name: 'VIRGIN ISLANDS Part B of A',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGIN ISLANDSPart C',
+            name: 'VIRGIN ISLANDS Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGIN ISLANDSUnspecified',
+            name: 'VIRGIN ISLANDS Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'VIRGINIAPart A',
+            name: 'VIRGINIA Part A',
+            type: 'pie',
+            data: [['Approved', 334], ['Denied', 264]]},
+           {id: 'VIRGINIAPart B',
+            name: 'VIRGINIA Part B',
+            type: 'pie',
+            data: [['Approved', 939], ['Denied', 1008]]},
+           {id: 'VIRGINIAPart B of A',
+            name: 'VIRGINIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 141], ['Denied', 190]]},
+           {id: 'VIRGINIAPart C',
+            name: 'VIRGINIA Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 1]]},
+           {id: 'VIRGINIAUnspecified',
+            name: 'VIRGINIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'WASHINGTONPart A',
+            name: 'WASHINGTON Part A',
+            type: 'pie',
+            data: [['Approved', 261], ['Denied', 135]]},
+           {id: 'WASHINGTONPart B',
+            name: 'WASHINGTON Part B',
+            type: 'pie',
+            data: [['Approved', 1233], ['Denied', 820]]},
+           {id: 'WASHINGTONPart B of A',
+            name: 'WASHINGTON Part B of A',
+            type: 'pie',
+            data: [['Approved', 21], ['Denied', 18]]},
+           {id: 'WASHINGTONPart C',
+            name: 'WASHINGTON Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 0]]},
+           {id: 'WASHINGTONUnspecified',
+            name: 'WASHINGTON Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'WEST VIRGINIAPart A',
+            name: 'WEST VIRGINIA Part A',
+            type: 'pie',
+            data: [['Approved', 297], ['Denied', 150]]},
+           {id: 'WEST VIRGINIAPart B',
+            name: 'WEST VIRGINIA Part B',
+            type: 'pie',
+            data: [['Approved', 280], ['Denied', 193]]},
+           {id: 'WEST VIRGINIAPart B of A',
+            name: 'WEST VIRGINIA Part B of A',
+            type: 'pie',
+            data: [['Approved', 92], ['Denied', 59]]},
+           {id: 'WEST VIRGINIAPart C',
+            name: 'WEST VIRGINIA Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 0]]},
+           {id: 'WEST VIRGINIAUnspecified',
+            name: 'WEST VIRGINIA Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'WISCONSINPart A',
+            name: 'WISCONSIN Part A',
+            type: 'pie',
+            data: [['Approved', 714], ['Denied', 411]]},
+           {id: 'WISCONSINPart B',
+            name: 'WISCONSIN Part B',
+            type: 'pie',
+            data: [['Approved', 530], ['Denied', 375]]},
+           {id: 'WISCONSINPart B of A',
+            name: 'WISCONSIN Part B of A',
+            type: 'pie',
+            data: [['Approved', 602], ['Denied', 428]]},
+           {id: 'WISCONSINPart C',
+            name: 'WISCONSIN Part C',
+            type: 'pie',
+            data: [['Approved', 1], ['Denied', 1]]},
+           {id: 'WISCONSINUnspecified',
+            name: 'WISCONSIN Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'WYOMINGPart A',
+            name: 'WYOMING Part A',
+            type: 'pie',
+            data: [['Approved', 40], ['Denied', 11]]},
+           {id: 'WYOMINGPart B',
+            name: 'WYOMING Part B',
+            type: 'pie',
+            data: [['Approved', 142], ['Denied', 167]]},
+           {id: 'WYOMINGPart B of A',
+            name: 'WYOMING Part B of A',
+            type: 'pie',
+            data: [['Approved', 3], ['Denied', 1]]},
+           {id: 'WYOMINGPart C',
+            name: 'WYOMING Part C',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]},
+           {id: 'WYOMINGUnspecified',
+            name: 'WYOMING Unspecified',
+            type: 'pie',
+            data: [['Approved', 0], ['Denied', 0]]}
+           ]
+                  }
+          });
+          </script>
+        </div>
+      </div>
+
+      <!-- medicarepart chart -->
+
+      <div class="row justify-content-between mb-2">
+        <div class="col-md-6 mt-5 mb-2">
+          <div id="medicarepart" class='bg_'></div>
+          <script type="text/javascript">
+          Highcharts.chart('medicarepart', {
+            chart: {
+              type: 'column'
+            },
+            title: {
+              text: 'MEDICARE PART vs TOTAL CLAIMS'
+            },
+            xAxis: {
+              categories: ['Part B', 'Part A', 'Part B of A', 'Part C', 'Unspecified'],
+              min:0,
+              title: {
+                text: 'Medicare Part'
+              },
+              max:4,
+              crosshair: true,
+            },
+            credits: {
+                enabled: false
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: 'Claims'
+              }
+            },
+            legend: {
+      enabled: false,
+    },
+            tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              pointFormat: '<tr><td style="color:{series.color};padding:0">Claims: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+              name: 'Medicare Part',
+              colorByPoint: true,
+              data: [244730, 51607, 20316, 224, 14]
+
+            }]
+          });
+
+          </script>
+        </div>
+
+        <!-- Appeal category chart -->
+
+        <div class="col-md-6 mt-5 mb-2">
+          <div id="appealcategory" class='bg_'></div>
+          <script type="text/javascript">
+          Highcharts.chart('appealcategory', {
+            chart: {
+              type: 'bar'
+            },
+            title: {
+              text: 'AVERAGE PROCESSING DAYS vs APPEAL CATEGORY'
+            },
+            xAxis: {
+              categories: ['Entitlement', 'Prosthetics/Orthotics', 'Medical Supplies', 'Dental', 'DME', 'Prescription Drug', 'Acute Hospital', 'Home Health/Hospice', 'Non-MD Practitioner', 'Skilled Nursing Facility', 'Outpatient Therapies', 'Clinic/Lab/X-Ray', 'Transportation', 'Other', 'Outpatient Mental Health', 'Nursing Home', 'Cost Sharing', 'Practitioner Services', 'Chiropractic', 'OON: physician office access', 'Vision Care', 'Non-Medicare Benefit', 'Request for tiering exception', 'Emergency Room', 'Out of Area', 'OON: drug not avail in-network', 'QIC Dismissal', 'Unspecified', 'Plan cost utiliz. tools disput', 'Rqst for drug not on formulary', 'AC Dismissal'],
+              min:0,
+              title: {
+                text: 'Appeal Category'
+              },
+              max:6,
+              crosshair: true,
+              scrollbar:{
+                enabled:true
+              }
+            },
+            yAxis: {
+              min: 0,
+              title: {
+                text: 'Days'
+              }
+            },
+            legend: {
+      enabled: false,
+    },
+    credits: {
+        enabled: false
+    },
+            tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              pointFormat: '<tr><td style="color:{series.color};padding:0">Avg.Processing Days: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+              name: 'Appeal Category',
+              colorByPoint: true,
+              data: [405, 305, 240, 185, 131, 109, 107, 106, 106, 102, 101, 99, 97, 93, 92, 91, 90, 90, 89, 89, 89, 88, 86, 84, 83, 82, 78, 75, 74, 73, 63]
+
+            }]
+          });
+
+          </script>
+        </div>
+      </div>
+    </div>
+    <br>
+    <iframe class="bg_" src="http://127.0.0.1:8050/" style="width: 1350px;height: 2000px">
+    <footer class="footer" align="center">
+  		<div class="footer" id="copy">© 2020 Copyright:
+    	<a href="#"> decisionmaker.com by TEAM 10</a>
+  		</div>
+	</footer>
+    <script>
+    // When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        document.getElementById("navbar").style.padding = "10px 10px";
+        document.getElementById("logo").style.fontSize = "35px";
+      } else {
+        document.getElementById("navbar").style.padding = "20px 10px";
+        document.getElementById("logo").style.fontSize = "50px";
+      }
+    }
+    function myFunction(y) {
+      y.classList.toggle("change");
+      var x = document.getElementById("navbar-right");
+      if (x.className === "navbar") {
+        x.className += " responsive";
+      } else {
+        x.className = "navbar";
+      }
+    }
+    </script>
+</body>
+</html>
