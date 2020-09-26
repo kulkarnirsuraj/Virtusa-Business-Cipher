@@ -32,7 +32,7 @@
         .bar1, .bar2, .bar3 {
           width: 35px;
           height: 5px;
-          background-color: navajowhite;
+          background-color: midnightblue;
           margin: 6px 0;
           transition: 0.4s;
         }
@@ -50,10 +50,11 @@
         }
     #navbar {
       overflow: inherit;
-      background-color: black;
-      padding: 20px 10px;
+      background-color: gainsboro;
+      padding: 10px 10px;
       transition: 0.4s;
       position: fixed;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       width: 100%;
       top: 0;
       z-index: 99;
@@ -61,7 +62,7 @@
 
     #navbar a {
       float: left;
-      color: white;
+      color: midnightblue;
       text-align: center;
       padding: 12px;
       text-decoration: none;
@@ -71,7 +72,7 @@
     }
     #navbar p {
       float: left;
-      color: white;
+      color: midnightblue;
       text-align: center;
       padding: 12px;
       text-decoration: none;
@@ -82,21 +83,21 @@
     #navbar #logo {
       font-family: "Berlin Sans FB";
       font-size: 50px;
-      color: orange;
+      color: midnightblue;
       transition: 0.4s;
       cursor: default;
     }
 
     #navbar a:hover {
-      color: orange;
+      color: midnightblue;
       -ms-transform: scale(1.5); /* IE 9 */
       -webkit-transform: scale(1.5); /* Safari 3-8 */
       transform: scale(1.2);
     }
 
     #navbar a.active {
-      background-color: orange;
-      color: black;
+      background-color: midnightblue;
+      color: white;
     }
 
     #navbar-right {
@@ -106,11 +107,11 @@
   	display: none;
 	}
     .footer {
-      background-color: black;
+      background-color: gainsboro;
       padding: 5px 10px;
     }
     .footer #copy{
-      color: orange;
+      color: midnightblue;
       font-size: 10px;
       transition: 0.4s;
     }
@@ -160,6 +161,7 @@
         max-width: (940px + @grid-gutter-width);
         background-color: black;
       border-color: #040505;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         opacity: 0.8;
     }
     form label{
@@ -220,7 +222,7 @@
 
     <div class="fixed-bg"></div>
     <div id="navbar">
-      <p class="display-1" id="logo">DECISION MAKER <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
+      <p class="display-1" id="logo">ForeTell <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
       <div class="navbar" id="navbar-right">
         <a href="javascript:void(0);" style="font-size:15px;" class="icon">
             <div class="container" id="menuIcon" onclick="myFunction(this)">
@@ -245,7 +247,7 @@
         <a class="logout" style="padding-left: 10px;padding-right: 30px" href="{% url 'my_app:logout' %}">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
       </div>
     </div>
-    <div class= "container" id="form" style="margin-top:210px;margin-bottom: 10%">
+    <div class= "container" id="form" style="border-radius: 10px;margin-top:210px;margin-bottom: 10%">
     <form style="margin-top:10px;margin-bottom: 100px" action="{% url "my_app:output" %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <h6 style="color: orangered;padding-top: 5%;padding-bottom: 5%">* all fields are mandatory</h6>
@@ -384,9 +386,9 @@
       </div>
     <br>
       <div class="text-center">
-      <button type="submit" class="btn btn-success btn-lg btn-rounded" id="sub" style="margin-right: 5%;margin-top: 10%;margin-bottom: 10%;color: black">Submit</button>
-      <a role="button" class="btn btn-danger btn-lg btn-rounded" id="reset" href="{% url 'my_app:Aform' %}" style="margin-top: 10%;margin-bottom: 10%;color: black;width: 90px">Reset</a>
-      <button class="btn btn-md btn-warning dropdown-toggle pull-right" style="margin-right: 10%;margin-top: 10%;margin-bottom: 10%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button type="submit" class="btn btn-success btn-lg btn-rounded" id="sub" style="margin-left: 14%;margin-right: 5%;margin-top: 10%;margin-bottom: 10%;color: black">Submit</button>
+      <a role="button" class="btn btn-danger btn-lg btn-rounded" id="reset" href="{% url 'my_app:Aform' %}" style="margin-top: 10%;margin-bottom: 10%;color: black;width: 95px">Reset</a>
+      <button class="btn btn-md btn-warning dropdown-toggle pull-right" style="margin-top: 10%;margin-bottom: 10%" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <strong>Sample forms</strong>
       </button>
       <div class="dropdown-menu" style="background-color: whitesmoke" aria-labelledby="dropdownMenuButton">
@@ -402,7 +404,7 @@
     {% endblock %}
     <footer class="footer" style="margin-top: 10%" align="center">
   		<div class="footer" id="copy">© 2020 Copyright:
-    	<a href="#"> decisionmaker.com by TEAM 10</a>
+    	<a href="#" style="color: midnightblue"> ForeTell by team 10</a>
   		</div>
 	</footer>
 
@@ -411,10 +413,10 @@
 
     function scrollFunction() {
       if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        document.getElementById("navbar").style.padding = "10px 10px";
-        document.getElementById("logo").style.fontSize = "35px";
+        document.getElementById("navbar").style.padding = "5px 10px";
+        document.getElementById("logo").style.fontSize = "40px";
       } else {
-        document.getElementById("navbar").style.padding = "20px 10px";
+        document.getElementById("navbar").style.padding = "10px 10px";
         document.getElementById("logo").style.fontSize = "50px";
       }
     }

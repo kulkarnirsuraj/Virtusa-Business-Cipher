@@ -20,7 +20,8 @@
       margin: 0 auto;
       width: 90%;
       font-family: Arial, Helvetica, sans-serif;
-      background-image: url("{% static "images/main_bg.png" %}");
+      {#background-image: url("https://image.freepik.com/free-photo/weathered-blue-page_53876-88602.jpg");#}
+      background-color: #3D5E82;
       min-height: 500px;
       background-attachment: fixed;
       background-position: center;
@@ -42,13 +43,13 @@
 
     .myrounded{
       border-radius: 10px;
-      border-bottom: 10px solid #FC8E5C ;
+      border-bottom: 10px solid orangered ;
     }
 
     .bg_{
       background-color: white;
       border-radius: 8px;
-      border-bottom: 8px solid #FC8E5C ;
+      border-bottom: 8px solid orangered ;
 
     }
     .container #menuIcon{
@@ -59,7 +60,7 @@
         .bar1, .bar2, .bar3 {
           width: 35px;
           height: 5px;
-          background-color: navajowhite;
+          background-color: midnightblue;
           margin: 6px 0;
           transition: 0.4s;
         }
@@ -77,8 +78,9 @@
         }
     #navbar {
       overflow: inherit;
-      background-color: #040505;
-      padding: 20px 10px;
+      background-color: gainsboro;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      padding: 10px 10px;
       transition: 0.4s;
       position: fixed;
       width: 100%;
@@ -89,7 +91,7 @@
 
     #navbar a {
       float: left;
-      color: white;
+      color: midnightblue;
       text-align: center;
       padding: 12px;
       text-decoration: none;
@@ -99,7 +101,7 @@
     }
     #navbar p {
       float: left;
-      color: white;
+      color: midnightblue;
       text-align: center;
       padding: 12px;
       text-decoration: none;
@@ -110,21 +112,21 @@
     #navbar #logo {
       font-family: "Berlin Sans FB";
       font-size: 50px;
-      color: orange;
+      color: midnightblue;
       transition: 0.4s;
       cursor: default;
     }
 
     #navbar a:hover {
-      color: orange;
+      color: midnightblue;
       -ms-transform: scale(1.5); /* IE 9 */
       -webkit-transform: scale(1.5); /* Safari 3-8 */
       transform: scale(1.2);
     }
 
     #navbar a.active {
-      background-color: orange;
-      color: black;
+      background-color: midnightblue;
+      color: white;
     }
 
     #navbar-right {
@@ -135,14 +137,14 @@
 	}
     .footer {
       overflow: hidden;
-      background-color: black;
+      background-color: gainsboro;
       padding: 5px 10px;
       position: relative;
       margin-right: -4.9vw;
       margin-left: -5vw;
     }
     .footer #copy{
-      color: orange;
+      color: midnightblue;
       font-size: 10px;
       transition: 0.4s;
     }
@@ -190,7 +192,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <div class="fixed-bg"></div>
     <div id="navbar">
-      <p class="display-1" id="logo">DECISION MAKER <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
+      <p class="display-1" id="logo">ForeTell <i class="fa fa-balance-scale" aria-hidden="true"></i></p>
       <div class="navbar" id="navbar-right">
           <a href="javascript:void(0);" style="font-size:15px;" class="icon">
             <div class="container" id="menuIcon" onclick="myFunction(this)">
@@ -225,15 +227,15 @@
           <path d="M8 12c4 0 5 1.755 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-.245S4 12 8 12z"/>
           </svg>
         </div> -->
-        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center  mb-2 bg-dark common myrounded" id="head">
-          <span style="color: orange" class='fontsize changecolor'>Approved: 53.8%</span> <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-check" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
+        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center  mb-2 common myrounded" id="head" style="background-color: gainsboro">
+          <span style="color: midnightblue" class='fontsize changecolor'>Approved: 53.8%</span> <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-check" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
   <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
   <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
   <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
 </svg>
         </div>
-        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center mb-2 bg-dark common myrounded">
-          <span style="color: orange" class='fontsize changecolor'>Denied: 46.2%</span><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-x" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
+        <div class="col-md-3 col-sm-8 col-8 pt-5 pb-5 text-center mb-2 common myrounded" style="background-color: gainsboro">
+          <span style="color: midnightblue" class='fontsize changecolor'>Denied: 46.2%</span><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-file-earmark-x" fill="#FC8E5C" xmlns="http://www.w3.org/2000/svg">
   <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
   <path d="M9.5 3V0L14 4.5h-3A1.5 1.5 0 0 1 9.5 3z"/>
   <path fill-rule="evenodd" d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z"/>
@@ -2109,7 +2111,7 @@
     <iframe class="bg_" src="https://agadmindash002.herokuapp.com/" style="width: 1350px;height: 2300px;margin-bottom: 10%"></iframe>
     <footer class="footer" align="center">
   		<div class="footer" id="copy">© 2020 Copyright:
-    	<a href="#"> decisionmaker.com by TEAM 10</a>
+    	<a href="#" style="color: midnightblue"> ForeTell by team 10</a>
   		</div>
 	</footer>
     <script>
@@ -2118,10 +2120,10 @@
 
     function scrollFunction() {
       if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        document.getElementById("navbar").style.padding = "10px 10px";
-        document.getElementById("logo").style.fontSize = "35px";
+        document.getElementById("navbar").style.padding = "5px 10px";
+        document.getElementById("logo").style.fontSize = "40px";
       } else {
-        document.getElementById("navbar").style.padding = "20px 10px";
+        document.getElementById("navbar").style.padding = "10px 10px";
         document.getElementById("logo").style.fontSize = "50px";
       }
     }
