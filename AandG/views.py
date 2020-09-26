@@ -7,15 +7,7 @@ import re
 import joblib
 from django.conf import settings
 import os
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output,State
-import plotly.graph_objs as go
-import dash_bootstrap_components as dbc
-import statistics
-import os
-from django.conf import settings
-from django_plotly_dash import DjangoDash
+
 
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
