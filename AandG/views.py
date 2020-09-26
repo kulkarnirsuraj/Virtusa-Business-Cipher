@@ -183,7 +183,6 @@ def index2(request):
                         'Hearing Type', 'Procedure Code'], inplace=True)
         perc =mdl2.predict_proba(b)
     print(b)
-    b.to_csv('file.csv')
     print(perc)
     result = {'denied':perc[0][0]*100,'accepted':perc[0][1]*100,'appno':a['appno']}
     return render(request,'output.html',context=result)
