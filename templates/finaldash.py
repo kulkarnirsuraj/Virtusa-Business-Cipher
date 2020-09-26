@@ -14,7 +14,7 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_csv('after removing duplicates.csv')
-server =app.server
+
 controls = dbc.Card(
     [
         dbc.FormGroup(
