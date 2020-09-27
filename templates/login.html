@@ -214,8 +214,9 @@
         display: block;
         position: absolute;
     }
-    .op:hover{
-        background-color: dodgerblue;
+    #sub:hover{
+        background-color: green;
+        color: gainsboro;
     }
     </style>
 
@@ -229,7 +230,7 @@
     <form method="post" action="{% url 'my_app:login' %}">
         {% csrf_token %}
       <div class="form-group">
-        <h1 class="text-center" style="color: orangered;font-family: 'Century Gothic';padding-bottom: 5%;padding-top: 10%">Login Form</h1>
+        <h1 class="text-center" style="color: gainsboro;font-family: 'Century Gothic';padding-bottom: 5%;padding-top: 10%">Login Form</h1>
         <label for="username">USERNAME</label>
         <input name="username" type="text" class="form-control" id="username" placeholder="Enter your username">
         <h6 style="color: red">{{ form.username.errors }}</h6>
@@ -242,7 +243,7 @@
       </div>
         <br>
       <div class="text-center">
-          <button type="submit" class="btn btn-lg btn-primary">Login</button>
+          <button type="submit" id="sub" class="btn btn-lg">Login</button>
       </div>
     </form>
     <!--
